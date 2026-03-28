@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Blog – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold" style="background:linear-gradient(135deg,#3b5bdb,#00bcd4); font-size:.8rem; letter-spacing:.06em;">BLOG</span>
+    <h1 class="fw-bold display-5 mb-3">CANCERAI <span class="text-primary">Blog</span></h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      Insights, updates, and deep-dives into our AI-powered cancer detection technology.
+    </p>
+  </div>
+
+  {% set blogs = [
+    {
+      'title': 'How AI is Revolutionizing Breast Cancer Detection',
+      'date': 'March 15, 2026',
+      'category': 'AI & Healthcare',
+      'color': 'primary',
+      'icon': 'bi-cpu',
+      'excerpt': 'Artificial Intelligence is transforming the way we detect and diagnose breast cancer. Traditional diagnostic methods rely heavily on the expertise of pathologists who manually examine histopathology slides under microscopes. This process is time-consuming, subject to inter-observer variability, and limited by human fatigue. AI-powered systems like CANCERAI can analyze thousands of images in seconds, providing consistent and accurate results.',
+      'content': 'Our CNN+SVM hybrid model combines the feature extraction power of deep learning (EfficientNetB0) with the classification precision of Support Vector Machines. The CNN learns complex visual patterns from tissue images — cellular arrangements, nuclear morphology, and tissue architecture — while the SVM optimizes the decision boundary for binary classification. This hybrid approach consistently outperforms standalone CNN classifiers on the BreakHis benchmark dataset, achieving over 90% accuracy across all magnification levels.',
+      'tags': ['Deep Learning', 'Computer Vision', 'Diagnostics']
+    },
+    {
+      'title': 'Understanding the BreakHis Dataset: A Deep Dive',
+      'date': 'March 10, 2026',
+      'category': 'Research',
+      'color': 'info',
+      'icon': 'bi-database',
+      'excerpt': 'The Breast Cancer Histopathological Image Classification (BreakHis) dataset is one of the most widely used benchmarks in medical image analysis. Collected from 82 patients at the Pathological Anatomy and Cytopathology Laboratory in Paranã, Brazil, it contains 7,909 microscopic images captured at four magnification factors: 40X, 100X, 200X, and 400X.',
+      'content': 'The dataset is divided into 8 subtypes — 4 benign (Adenosis, Fibroadenoma, Phyllodes Tumor, Tubular Adenoma) and 4 malignant (Ductal Carcinoma, Lobular Carcinoma, Mucinous Carcinoma, Papillary Carcinoma). Each image is 700×460 pixels in 3-channel RGB PNG format. The class imbalance (benign: 2,480 vs malignant: 5,429) reflects real-world clinical distribution and requires careful handling during model training through techniques like class-weighted loss functions and stratified sampling.',
+      'tags': ['BreakHis', 'Histopathology', 'Dataset']
+    },
+    {
+      'title': 'EfficientNetB0 + SVM: Why Hybrid Models Win',
+      'date': 'March 5, 2026',
+      'category': 'Technology',
+      'color': 'warning',
+      'icon': 'bi-layers',
+      'excerpt': 'In the world of medical image classification, no single algorithm dominates. Convolutional Neural Networks (CNNs) excel at learning hierarchical visual features from raw pixels, but they can overfit on small medical datasets. SVMs, on the other hand, are robust classifiers that generalize well but require meaningful feature representations.',
+      'content': 'CANCERAI combines the best of both worlds. We use EfficientNetB0 — a compact yet powerful CNN architecture pre-trained on ImageNet — as a feature extractor. The network passes images through a series of convolutional blocks, producing a 256-dimensional feature vector for each input image. This vector is then fed into an SVM with an RBF kernel (C=10, γ=scale) for final classification. The two-phase training strategy (Phase 1: frozen base training, Phase 2: fine-tuning top 30 layers) ensures the CNN learns domain-specific features while retaining its general visual understanding.',
+      'tags': ['EfficientNet', 'SVM', 'Architecture']
+    },
+    {
+      'title': 'The Future of Digital Pathology',
+      'date': 'February 28, 2026',
+      'category': 'Industry',
+      'color': 'success',
+      'icon': 'bi-graph-up-arrow',
+      'excerpt': 'Digital pathology is rapidly emerging as a transformative force in healthcare. The transition from glass slides to whole-slide imaging (WSI) enables remote consultation, AI-assisted diagnosis, and large-scale data analysis. The global digital pathology market is projected to reach $1.4 billion by 2028.',
+      'content': 'Platforms like CANCERAI are at the forefront of this revolution. By combining AI analysis with real-time doctor consultation through web-based platforms, we are making expert-level diagnostic capabilities accessible to hospitals and clinics worldwide. Remote pathology eliminates geographic barriers, enabling specialists to review cases from anywhere. As AI models become more sophisticated and regulatory frameworks evolve, we envision a future where AI-assisted pathology becomes the standard of care.',
+      'tags': ['Digital Pathology', 'Healthcare', 'Future']
+    },
+    {
+      'title': 'Building CANCERAI: Our Technical Journey',
+      'date': 'February 20, 2026',
+      'category': 'Behind the Scenes',
+      'color': 'danger',
+      'icon': 'bi-code-slash',
+      'excerpt': 'Creating CANCERAI has been an incredible journey of combining medical science with modern software engineering. Our team of four — Vaibhav, Harsh, Aman, and Miss Sinare — brought together expertise in AI/ML, data science, frontend development, and oncology to build a platform that can truly make a difference.',
+      'content': 'The technical stack includes Flask for the backend, TensorFlow/Keras for the deep learning pipeline, scikit-learn for the SVM classifier, and Bootstrap 5 for a responsive UI. The real-time consultation feature is powered by Flask-SocketIO, enabling instant doctor-patient communication. We spent weeks fine-tuning our model, experimenting with different architectures (ResNet50, VGG16, EfficientNetB0), optimizers (Adam, SGD), and hyperparameters before settling on our current hybrid approach. The result is a platform that processes histopathology images in under 3 seconds with clinical-grade accuracy.',
+      'tags': ['Flask', 'TensorFlow', 'Development']
+    }
+  ] %}
+
+  <div class="row g-4">
+    {% for blog in blogs %}
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 h-100 card-hover">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="badge bg-{{ blog.color }} bg-opacity-10 text-{{ blog.color }} rounded-pill px-3">
+              <i class="bi {{ blog.icon }} me-1"></i>{{ blog.category }}
+            </span>
+            <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i>{{ blog.date }}</span>
+          </div>
+          <h4 class="fw-bold mb-3">{{ blog.title }}</h4>
+          <p class="text-muted small">{{ blog.excerpt }}</p>
+          <p class="text-muted small">{{ blog.content }}</p>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            {% for tag in blog.tags %}
+            <span class="badge bg-light text-dark border small">#{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

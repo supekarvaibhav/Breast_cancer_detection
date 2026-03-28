@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CANCERAI – AI Cancer Detection{% endblock %}</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CANCERAI" height="34" class="me-2 rounded">
+      CANCER<span>AI</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+        </li>
+
+        <!-- Products Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            Products
+          </a>
+          <ul class="dropdown-menu shadow">
+            <li><a class="dropdown-item" href="{{ url_for('main.index') }}">
+              <i class="bi bi-heart-pulse me-2 text-danger"></i>Breast Cancer Detection</a></li>
+          </ul>
+        </li>
+
+        <!-- Company Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            Company
+          </a>
+          <ul class="dropdown-menu shadow">
+            <li><a class="dropdown-item" href="{{ url_for('main.about') }}">
+              <i class="bi bi-info-circle me-2"></i>About</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.about') }}#team">
+              <i class="bi bi-people me-2"></i>Team</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.career') }}">
+              <i class="bi bi-briefcase me-2"></i>Career</a></li>
+          </ul>
+        </li>
+
+        <!-- Info & Knowledgebase Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            Info & Knowledgebase
+          </a>
+          <ul class="dropdown-menu shadow">
+            <li><a class="dropdown-item" href="{{ url_for('main.what_is_cancer') }}">
+              <i class="bi bi-patch-question me-2"></i>What is Cancer</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.what_is_breast_cancer') }}">
+              <i class="bi bi-ribbon me-2"></i>What is Breast Cancer</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.image_database') }}">
+              <i class="bi bi-images me-2"></i>Image Database</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.awareness') }}">
+              <i class="bi bi-megaphone me-2"></i>Awareness</a></li>
+          </ul>
+        </li>
+
+        <!-- Blog -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.blog') }}">Blog</a>
+        </li>
+
+        <!-- Contact -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a>
+        </li>
+
+        <!-- Project -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.project') }}">Project</a>
+        </li>
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.role == 'patient' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('patient.upload') }}"><i class="bi bi-upload me-1"></i>Upload</a>
+          </li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+              <div class="avatar-sm me-2">{{ current_user.full_name[0].upper() }}</div>
+              {{ current_user.full_name.split()[0] }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+              <li><span class="dropdown-item-text text-muted small">
+                <i class="bi bi-shield-check me-1" style="color: var(--success);"></i>
+                {{ current_user.role.capitalize() }} Account
+              </span></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ url_for(current_user.role + '.dashboard') }}">
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('patient.history') if current_user.role == 'patient' else url_for('doctor.patients') }}">
+                <i class="bi bi-clock-history me-2"></i>{{ 'History' if current_user.role == 'patient' else 'Patients' }}</a></li>
+              <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+          </li>
+          <li class="nav-item ms-1">
+            <a class="btn-register"
+               href="{{ url_for('auth.register') }}">
+              <i class="bi bi-person-plus me-1"></i>Register
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── FLASH MESSAGES ─────────────────────────────────────────────── -->
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+        <i class="bi bi-{{ 'check-circle' if category=='success' else 'exclamation-triangle' if category=='danger' else 'info-circle' }} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────────────── -->
+<main class="py-4">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────── -->
+<footer class="footer-dark mt-5 pt-5 pb-3 text-white">
+  <div class="container">
+    <div class="row g-4 mb-4">
+
+      <!-- Brand -->
+      <div class="col-lg-4">
+        <h5 class="fw-bold mb-3 d-flex align-items-center">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CANCERAI" height="28" class="me-2 rounded">
+          CANCER<span style="color: var(--accent-lt);">AI</span>
+        </h5>
+        <p class="text-muted small mb-4" style="line-height:1.7;">AI-powered early breast cancer detection using CNN+SVM hybrid model trained on the BreakHis histopathology dataset. Built to save lives through technology.</p>
+        <!-- Social Media Icons -->
+        <div class="mb-2">
+          <p class="text-muted small fw-semibold text-uppercase mb-2" style="letter-spacing:.08em; font-size:.7rem;">Follow Us</p>
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="https://facebook.com/CANCERAI" target="_blank" class="social-icon-btn" style="--sc:#1877f2;" title="Facebook">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="https://twitter.com/CANCERAI" target="_blank" class="social-icon-btn" style="--sc:#1da1f2;" title="Twitter / X">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <a href="https://instagram.com/CANCERAI" target="_blank" class="social-icon-btn" style="--sc:#e1306c;" title="Instagram">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a href="https://linkedin.com/company/cancerai" target="_blank" class="social-icon-btn" style="--sc:#0a66c2;" title="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a href="https://youtube.com/@CANCERAI" target="_blank" class="social-icon-btn" style="--sc:#ff0000;" title="YouTube">
+              <i class="bi bi-youtube"></i>
+            </a>
+            <a href="https://github.com/CANCERAI" target="_blank" class="social-icon-btn" style="--sc:#fff;" title="GitHub">
+              <i class="bi bi-github"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-sm-6 col-lg-2">
+        <h6 class="fw-semibold mb-3 text-uppercase" style="letter-spacing:.08em; font-size:.72rem;">Navigation</h6>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><a href="{{ url_for('main.index') }}" class="footer-link">Home</a></li>
+          <li class="mb-2"><a href="{{ url_for('main.awareness') }}" class="footer-link">Awareness</a></li>
+          <li class="mb-2"><a href="{{ url_for('main.about') }}" class="footer-link">About</a></li>
+          <li class="mb-2"><a href="{{ url_for('main.blog') }}" class="footer-link">Blog</a></li>
+          <li class="mb-2"><a href="{{ url_for('main.contact') }}" class="footer-link">Contact</a></li>
+          <li class="mb-2"><a href="{{ url_for('auth.login') }}" class="footer-link">Login</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="col-sm-6 col-lg-3">
+        <h6 class="fw-semibold mb-3 text-uppercase" style="letter-spacing:.08em; font-size:.72rem;">Resources</h6>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2">
+            <a href="https://www.cancer.org/cancer/breast-cancer.html" target="_blank" class="footer-link">
+              American Cancer Society
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://www.breastcancer.org" target="_blank" class="footer-link">
+              BreastCancer.org
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://www.who.int/news-room/fact-sheets/detail/breast-cancer" target="_blank" class="footer-link">
+              WHO Breast Cancer Guide
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://github.com/CANCERAI" target="_blank" class="footer-link">
+              GitHub Repository
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact & Helpline -->
+      <div class="col-lg-3">
+        <h6 class="fw-semibold mb-3 text-uppercase" style="letter-spacing:.08em; font-size:.72rem;">Contact & Helpline</h6>
+        <ul class="list-unstyled text-muted small mb-3">
+          <li class="mb-2 d-flex align-items-start gap-2">
+            <i class="bi bi-envelope-fill mt-1" style="color: var(--accent-lt);"></i>
+            <span>cancerai@gmail.com</span>
+          </li>
+          <li class="mb-2 d-flex align-items-start gap-2">
+            <i class="bi bi-telephone-fill mt-1" style="color: var(--success);"></i>
+            <div>
+              <div class="fw-semibold text-white">Cancer Helpline</div>
+              <div>1-800-227-2345 (24/7)</div>
+            </div>
+          </li>
+          <li class="mb-2 d-flex align-items-start gap-2">
+            <i class="bi bi-chat-dots-fill mt-1" style="color: var(--warning);"></i>
+            <span>Live chat available for registered users</span>
+          </li>
+        </ul>
+        <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);">
+          <p class="text-muted small mb-0">
+            <i class="bi bi-shield-exclamation me-1" style="color: var(--warning);"></i>
+            <strong class="text-white">Disclaimer:</strong> This tool is for educational purposes only. Always consult a qualified medical professional.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr style="border-color: rgba(255,255,255,0.08);"/>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="text-muted small mb-0">&copy; 2026 <strong class="text-white">CANCERAI</strong> · Built with CNN+SVM Hybrid Model</p>
+      <div class="d-flex gap-3">
+        <a href="#" class="text-muted small footer-link">Privacy Policy</a>
+        <a href="#" class="text-muted small footer-link">Terms of Use</a>
+        <a href="{{ url_for('main.about') }}" class="text-muted small footer-link">About the Team</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}What is Breast Cancer – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold" style="background:linear-gradient(135deg,#e91e8c,#ff6b6b); font-size:.8rem; letter-spacing:.06em;">KNOWLEDGE BASE</span>
+    <h1 class="fw-bold display-5 mb-3">What is <span class="text-danger">Breast Cancer</span>?</h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      Breast cancer is the most commonly diagnosed cancer worldwide. Understanding it is the first step to fighting it.
+    </p>
+  </div>
+
+  <!-- Overview -->
+  <div class="row g-5 mb-5">
+    <div class="col-lg-8 mx-auto">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-3"><i class="bi bi-ribbon text-danger me-2"></i>Overview</h3>
+          <p class="text-muted">
+            Breast cancer is a disease in which cells in the breast grow out of control. There are different kinds of breast cancer, depending on which cells in the breast turn into cancer.
+            Breast cancer can begin in different parts of the breast — the ducts (tubes that carry milk to the nipple), the lobules (glands that make milk), or in rare cases, the connective tissue.
+          </p>
+          <p class="text-muted">
+            Most breast cancers are found in women, but men can get breast cancer too. About 1 in 8 women in the U.S. will develop invasive breast cancer over the course of her lifetime.
+            The good news: when caught early (localized stage), the 5-year survival rate is <strong class="text-success">99%</strong>.
+          </p>
+          <div class="row g-3 mt-3">
+            {% for val, label, color in [('2.3M+', 'New cases in 2020', 'danger'), ('99%', '5-year survival (early)', 'success'), ('1 in 8', 'Women affected in lifetime', 'warning'), ('8', 'Subtypes in BreakHis', 'info')] %}
+            <div class="col-6 col-md-3">
+              <div class="text-center p-3 rounded-3 bg-{{ color }} bg-opacity-10">
+                <div class="fw-bold fs-5 text-{{ color }}">{{ val }}</div>
+                <div class="text-muted" style="font-size:.7rem;">{{ label }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Types -->
+  <div class="row mb-5">
+    <div class="col-lg-8 mx-auto">
+      <h3 class="fw-bold text-center mb-4">Types of Breast Cancer</h3>
+      <div class="row g-4">
+        <!-- Benign -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-success text-white py-3 rounded-top-4">
+              <h5 class="mb-0"><i class="bi bi-shield-check me-2"></i>Benign (Non-cancerous)</h5>
+            </div>
+            <div class="card-body p-4">
+              {% for name, desc in [
+                ('Adenosis', 'Enlarged breast lobules with more glands than usual'),
+                ('Fibroadenoma', 'Most common benign tumor, firm smooth painless lump'),
+                ('Phyllodes Tumor', 'Rare fast-growing tumors in connective tissue'),
+                ('Tubular Adenoma', 'Well-defined small tumors with tubular structures')
+              ] %}
+              <div class="d-flex gap-2 mb-3">
+                <span class="badge bg-success rounded-pill align-self-start mt-1">✓</span>
+                <div>
+                  <strong class="small">{{ name }}</strong>
+                  <p class="text-muted mb-0" style="font-size:.8rem;">{{ desc }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- Malignant -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-danger text-white py-3 rounded-top-4">
+              <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Malignant (Cancerous)</h5>
+            </div>
+            <div class="card-body p-4">
+              {% for name, desc in [
+                ('Ductal Carcinoma', 'Most common type (~80%), starts in milk ducts'),
+                ('Lobular Carcinoma', 'Starts in milk-producing glands (lobules)'),
+                ('Mucinous Carcinoma', 'Rare, cancer cells produce mucus'),
+                ('Papillary Carcinoma', 'Rare, finger-like projections under microscope')
+              ] %}
+              <div class="d-flex gap-2 mb-3">
+                <span class="badge bg-danger rounded-pill align-self-start mt-1">!</span>
+                <div>
+                  <strong class="small">{{ name }}</strong>
+                  <p class="text-muted mb-0" style="font-size:.8rem;">{{ desc }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Factors & Symptoms -->
+  <div class="row g-4 mb-5">
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-exclamation-circle text-warning me-2"></i>Risk Factors</h5>
+          <ul class="list-unstyled mb-0">
+            {% for rf in ['Age (risk increases after 50)', 'Family history of breast cancer', 'Gene mutations (BRCA1, BRCA2)',
+                          'Early menstruation (before 12)', 'Late menopause (after 55)', 'Dense breast tissue',
+                          'Obesity and lack of physical activity', 'Alcohol consumption', 'Radiation exposure'] %}
+            <li class="mb-2 small"><i class="bi bi-dash-circle text-warning me-2"></i>{{ rf }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-eye text-danger me-2"></i>Warning Signs</h5>
+          <ul class="list-unstyled mb-0">
+            {% for s in ['New lump in breast or underarm', 'Thickening or swelling of breast', 'Irritation or dimpling of skin',
+                         'Redness or flaky skin on nipple area', 'Pulling in of the nipple', 'Nipple discharge other than milk',
+                         'Change in breast size or shape', 'Pain in any area of the breast'] %}
+            <li class="mb-2 small"><i class="bi bi-exclamation-diamond text-danger me-2"></i>{{ s }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-shield-check text-success me-2"></i>Screening Methods</h5>
+          <ul class="list-unstyled mb-0">
+            {% for m in ['Mammography (standard screening)', 'Breast ultrasound', 'Breast MRI for high-risk patients',
+                         'Clinical breast exam', 'Breast self-awareness', 'AI-powered histopathology analysis',
+                         'Genetic testing (BRCA)', 'Biopsy for confirmation'] %}
+            <li class="mb-2 small"><i class="bi bi-check2-circle text-success me-2"></i>{{ m }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="text-center">
+    <div class="card border-0 shadow-lg rounded-4 p-5" style="background: linear-gradient(135deg, #e91e8c15, #3b5bdb15);">
+      <h3 class="fw-bold mb-3">Early Detection Saves Lives</h3>
+      <p class="text-muted mb-4">Use CANCERAI to get an AI-powered analysis of histopathology images in seconds.</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg fw-semibold px-5">
+          <i class="bi bi-person-plus me-2"></i>Get Started
+        </a>
+        <a href="{{ url_for('main.awareness') }}" class="btn btn-outline-danger btn-lg px-5">
+          <i class="bi bi-ribbon me-2"></i>Awareness
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Career – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold" style="background:linear-gradient(135deg,#3b5bdb,#e91e8c); font-size:.8rem; letter-spacing:.06em;">CAREERS</span>
+    <h1 class="fw-bold display-5 mb-3">Join <span class="text-primary">CANCER</span><span class="text-warning">AI</span></h1>
+    <p class="lead text-muted mx-auto" style="max-width:600px;">
+      We're on a mission to revolutionize cancer detection using AI. Check back for open positions.
+    </p>
+  </div>
+
+  <!-- No Vacancies Notice -->
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-5 text-center">
+          <div class="mb-4">
+            <i class="bi bi-briefcase" style="font-size:4rem; color:#e0e0e0;"></i>
+          </div>
+          <h3 class="fw-bold mb-3">No Open Positions Right Now</h3>
+          <p class="text-muted mb-4">
+            Thank you for your interest in joining CANCERAI! We currently don't have any open vacancies, 
+            but we're always looking for talented individuals who are passionate about AI and healthcare.
+          </p>
+          <div class="alert alert-info rounded-3 d-inline-block px-4">
+            <i class="bi bi-envelope-heart me-2"></i>
+            Send your resume to <strong>careers@cancerai.com</strong> and we'll keep it on file for future openings.
+          </div>
+        </div>
+      </div>
+
+      <!-- Why Join Us -->
+      <div class="card border-0 shadow-sm rounded-4 mt-4">
+        <div class="card-body p-4 p-md-5">
+          <h4 class="fw-bold mb-4"><i class="bi bi-stars text-warning me-2"></i>Why Work With Us?</h4>
+          <div class="row g-4">
+            {% for icon, title, desc in [
+              ('bi-heart-pulse', 'Impact Lives', 'Help save lives through early cancer detection using cutting-edge AI technology.'),
+              ('bi-cpu', 'Work with AI', 'Build and deploy deep learning models for real-world medical applications.'),
+              ('bi-people', 'Great Team', 'Collaborate with passionate engineers, researchers, and medical professionals.'),
+              ('bi-globe', 'Remote Work', 'We believe in flexibility — work from anywhere in India.'),
+              ('bi-graph-up-arrow', 'Growth', 'Learn and grow in a fast-paced startup environment with mentorship.'),
+              ('bi-shield-check', 'Make a Difference', 'Be part of a company that puts patients first and ethics at the core.')
+            ] %}
+            <div class="col-md-6">
+              <div class="d-flex gap-3">
+                <div class="flex-shrink-0">
+                  <div class="rounded-circle bg-primary bg-opacity-10 p-3">
+                    <i class="bi {{ icon }} text-primary fs-5"></i>
+                  </div>
+                </div>
+                <div>
+                  <h6 class="fw-semibold mb-1">{{ title }}</h6>
+                  <p class="text-muted small mb-0">{{ desc }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

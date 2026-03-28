@@ -1,0 +1,495 @@
+{% extends 'base.html' %}
+{% block title %}Breast Cancer Awareness – CANCERAI{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<section class="awareness-hero text-white">
+  <div class="container text-center">
+    <div class="ribbon-icon mb-4">
+      <i class="bi bi-heart-fill" style="font-size:3.5rem; color:#ffe0f0;"></i>
+    </div>
+    <h1 class="display-4 fw-bold mb-3">Breast Cancer Awareness</h1>
+    <p class="lead mb-4 opacity-90" style="max-width:700px; margin:auto;">
+      Early detection saves lives. Know the facts, recognize the signs, and take action today.
+      Together we can fight breast cancer with knowledge and early screening.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg fw-semibold px-4">
+        <i class="bi bi-person-plus me-2"></i>Get Early Screening
+      </a>
+      <a href="#symptoms" class="btn btn-outline-light btn-lg px-4">
+        <i class="bi bi-chevron-down me-2"></i>Learn More
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── AWARENESS RIBBON BAR ──────────────────────────────────────────── -->
+<div class="awareness-ribbon-bar py-3">
+  <div class="container">
+    <div class="row text-center g-3">
+      <div class="col-6 col-md-3">
+        <div class="awareness-stat">
+          <div class="awareness-stat-number">2.3M</div>
+          <div class="awareness-stat-label">New Cases Yearly</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="awareness-stat">
+          <div class="awareness-stat-number">99%</div>
+          <div class="awareness-stat-label">5-Year Survival if Caught Early</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="awareness-stat">
+          <div class="awareness-stat-number">#1</div>
+          <div class="awareness-stat-label">Most Common Cancer in Women</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="awareness-stat">
+          <div class="awareness-stat-number">1 in 8</div>
+          <div class="awareness-stat-label">Women Affected in Lifetime</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHAT IS BREAST CANCER ─────────────────────────────────────────── -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="awareness-badge mb-3">Understanding the Disease</span>
+        <h2 class="fw-bold mb-4">What is Breast Cancer?</h2>
+        <p class="text-muted mb-3">
+          Breast cancer occurs when cells in the breast grow uncontrollably, forming a tumor that can often
+          be felt as a lump or detected on an X-ray. It is the most commonly diagnosed cancer among women
+          worldwide, though it can also affect men.
+        </p>
+        <p class="text-muted mb-3">
+          Breast cancer can begin in different parts of the breast — the ducts (ductal carcinoma),
+          the lobules (lobular carcinoma), or, less frequently, in the tissue between them.
+          It is classified into two main types:
+        </p>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="awareness-info-card border-success">
+              <div class="d-flex align-items-start gap-3">
+                <div class="awareness-icon-box bg-success-subtle">
+                  <i class="bi bi-shield-check text-success fs-4"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-success">Benign</h6>
+                  <p class="text-muted small mb-0">Non-cancerous tumors that do not invade nearby tissue or spread to other parts of the body.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="awareness-info-card border-danger">
+              <div class="d-flex align-items-start gap-3">
+                <div class="awareness-icon-box bg-danger-subtle">
+                  <i class="bi bi-exclamation-triangle text-danger fs-4"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-danger">Malignant</h6>
+                  <p class="text-muted small mb-0">Cancerous tumors that can invade nearby tissue and spread to other parts of the body (metastasize).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="awareness-visual-box">
+          <div class="awareness-visual-inner">
+            <div class="text-center mb-4">
+              <div class="awareness-circle-icon mx-auto mb-3">
+                <i class="bi bi-lungs-fill" style="font-size:3rem; color:#e91e8c;"></i>
+              </div>
+              <h5 class="fw-bold">Types of Breast Cancer</h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <div class="list-group-item border-0 px-0 py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rounded-pill bg-primary">01</span>
+                  <div>
+                    <strong>Invasive Ductal Carcinoma (IDC)</strong>
+                    <div class="text-muted small">Most common — starts in milk ducts, spreads to surrounding tissue.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item border-0 px-0 py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rounded-pill bg-primary">02</span>
+                  <div>
+                    <strong>Invasive Lobular Carcinoma (ILC)</strong>
+                    <div class="text-muted small">Second most common — starts in milk-producing lobules.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item border-0 px-0 py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rounded-pill bg-warning text-dark">03</span>
+                  <div>
+                    <strong>Triple-Negative Breast Cancer</strong>
+                    <div class="text-muted small">Aggressive form that lacks three common receptors; harder to treat.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item border-0 px-0 py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rounded-pill bg-info text-dark">04</span>
+                  <div>
+                    <strong>HER2-Positive Breast Cancer</strong>
+                    <div class="text-muted small">Produces excess HER2 protein; tends to grow faster but responds well to targeted therapy.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item border-0 px-0 py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rounded-pill bg-secondary">05</span>
+                  <div>
+                    <strong>Inflammatory Breast Cancer (IBC)</strong>
+                    <div class="text-muted small">Rare, aggressive — lymph vessels in breast skin are blocked by cancer cells.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RISK FACTORS ──────────────────────────────────────────────────── -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="awareness-badge mb-3">Know Your Risk</span>
+      <h2 class="fw-bold">Risk Factors for Breast Cancer</h2>
+      <p class="text-muted">Understanding risk factors helps in making informed decisions about screening and lifestyle changes.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4">
+          <div class="card-body p-4">
+            <div class="awareness-icon-box bg-danger-subtle mb-3">
+              <i class="bi bi-person-fill-x text-danger fs-3"></i>
+            </div>
+            <h5 class="fw-bold text-danger">Non-Modifiable Risk Factors</h5>
+            <p class="text-muted small mb-3">Factors you cannot change:</p>
+            <ul class="list-unstyled">
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Being female (women are 100× more at risk than men)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Increasing age (risk rises after 50)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Family history of breast or ovarian cancer</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Inherited BRCA1 / BRCA2 gene mutations</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Dense breast tissue</li>
+              <li class="py-1 d-flex align-items-center gap-2"><i class="bi bi-dot text-danger fs-4"></i>Personal history of breast conditions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4">
+          <div class="card-body p-4">
+            <div class="awareness-icon-box bg-warning-subtle mb-3">
+              <i class="bi bi-exclamation-circle-fill text-warning fs-3"></i>
+            </div>
+            <h5 class="fw-bold" style="color:#e65100;">Modifiable Risk Factors</h5>
+            <p class="text-muted small mb-3">Factors you may be able to change:</p>
+            <ul class="list-unstyled">
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Being overweight or obese (especially after menopause)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Physical inactivity</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Alcohol consumption</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Hormone replacement therapy (HRT)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Smoking</li>
+              <li class="py-1 d-flex align-items-center gap-2"><i class="bi bi-dot text-warning fs-4"></i>Exposure to radiation on chest</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 rounded-4">
+          <div class="card-body p-4">
+            <div class="awareness-icon-box bg-success-subtle mb-3">
+              <i class="bi bi-shield-fill-check text-success fs-3"></i>
+            </div>
+            <h5 class="fw-bold text-success">Protective Factors</h5>
+            <p class="text-muted small mb-3">Factors that may reduce your risk:</p>
+            <ul class="list-unstyled">
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Regular physical exercise (150 min/week)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Maintaining a healthy body weight</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Breastfeeding (if possible)</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Limiting alcohol intake</li>
+              <li class="py-1 border-bottom d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Healthy diet rich in fruits & vegetables</li>
+              <li class="py-1 d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Regular breast screening & mammograms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SYMPTOMS ──────────────────────────────────────────────────────── -->
+<section class="py-5" id="symptoms">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="awareness-badge mb-3">Watch for Signs</span>
+      <h2 class="fw-bold">Symptoms & Warning Signs</h2>
+      <p class="text-muted">Many early breast cancers have no symptoms. Regular self-exams and screening are crucial.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="row g-3">
+          {% set symptoms = [
+            ('bi-circle-fill', '#e91e63', 'New lump in breast or underarm', 'A painless lump or thickening that was not previously present.'),
+            ('bi-arrows-angle-expand', '#9c27b0', 'Change in breast size or shape', 'Any unexplained swelling, shrinkage or asymmetry.'),
+            ('bi-droplet-fill', '#f44336', 'Nipple discharge', 'Clear, bloody or other unusual fluid that is not breast milk.'),
+            ('bi-exclamation-diamond-fill', '#ff5722', 'Skin changes', 'Redness, dimpling, puckering or skin that looks like orange peel.'),
+            ('bi-arrow-in', '#795548', 'Inverted nipple', 'Nipple that turns inward or changes position.'),
+            ('bi-thermometer-half', '#607d8b', 'Breast pain', 'Persistent unexplained pain in the breast or nipple area.')
+          ] %}
+          {% for icon, color, title, desc in symptoms %}
+          <div class="col-sm-6">
+            <div class="awareness-symptom-card">
+              <div class="d-flex align-items-start gap-3">
+                <div class="flex-shrink-0 pt-1">
+                  <i class="bi {{ icon }}" style="font-size:1.4rem; color:{{ color }};"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1">{{ title }}</h6>
+                  <p class="text-muted small mb-0">{{ desc }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="awareness-alert-box">
+          <div class="text-center mb-4">
+            <i class="bi bi-bell-fill" style="font-size:2.5rem; color:#e91e63;"></i>
+            <h5 class="fw-bold mt-2">When to See a Doctor</h5>
+          </div>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-start gap-3 p-3 bg-white rounded-3 shadow-sm">
+              <i class="bi bi-calendar-check text-primary fs-4 flex-shrink-0"></i>
+              <div>
+                <strong>Annual Mammograms</strong>
+                <div class="text-muted small">Recommended for women aged 40+ or earlier if high risk.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-start gap-3 p-3 bg-white rounded-3 shadow-sm">
+              <i class="bi bi-person-check text-success fs-4 flex-shrink-0"></i>
+              <div>
+                <strong>Monthly Self-Exams</strong>
+                <div class="text-muted small">Perform on day 3-5 after your period starts.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-start gap-3 p-3 bg-white rounded-3 shadow-sm">
+              <i class="bi bi-hospital text-danger fs-4 flex-shrink-0"></i>
+              <div>
+                <strong>Immediate Consultation</strong>
+                <div class="text-muted small">See a doctor immediately if you notice any of the above changes.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-start gap-3 p-3 bg-white rounded-3 shadow-sm">
+              <i class="bi bi-file-medical text-warning fs-4 flex-shrink-0"></i>
+              <div>
+                <strong>Clinical Breast Exam</strong>
+                <div class="text-muted small">At least once every 3 years for women in their 20s and 30s.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EARLY DETECTION ───────────────────────────────────────────────── -->
+<section class="py-5 awareness-detection-section text-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="badge bg-white text-dark px-3 py-2 mb-3 rounded-pill fw-semibold">Early Detection</span>
+      <h2 class="fw-bold">Detection Methods</h2>
+      <p class="opacity-80">Multiple tools and techniques are used to detect breast cancer early.</p>
+    </div>
+    <div class="row g-4">
+      {% set methods = [
+        ('bi-search-heart', 'Self-Examination (BSE)', 'Monthly self-breast examination at home to feel for new lumps, changes in texture, size, or skin appearance. Best performed 3-5 days after menstruation.'),
+        ('bi-camera-fill', 'Mammography', 'X-ray imaging of the breast. The gold standard for early detection. Recommended annually for women aged 40 and older. Can detect cancers up to 2 years before they can be felt.'),
+        ('bi-soundwave', 'Ultrasound', 'Uses sound waves to produce images. Helpful for evaluating breast lumps and distinguishing between solid masses and fluid-filled cysts. Often used alongside mammography.'),
+        ('bi-magnet-fill', 'MRI (Magnetic Resonance Imaging)', 'Highly sensitive test recommended for high-risk patients (BRCA gene mutation carriers). Provides detailed breast tissue images using magnetic fields.'),
+        ('bi-robot', 'AI-Assisted Histopathology', 'Analysis of biopsy tissue samples using AI models like our CNN+SVM system. Trained on BreakHis dataset for classification of benign vs malignant tumors.'),
+        ('bi-clipboard2-pulse', 'Biopsy', 'Definitive test — a sample of breast tissue is removed and examined under a microscope to determine if cancer cells are present. Various types include core needle, FNA, and surgical biopsy.')
+      ] %}
+      {% for icon, title, desc in methods %}
+      <div class="col-md-6 col-lg-4">
+        <div class="detection-card h-100">
+          <div class="detection-icon mb-3">
+            <i class="bi {{ icon }} fs-2"></i>
+          </div>
+          <h5 class="fw-bold mb-2">{{ title }}</h5>
+          <p class="small opacity-85 mb-0">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── STAGES ────────────────────────────────────────────────────────── -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="awareness-badge mb-3">Staging</span>
+      <h2 class="fw-bold">Breast Cancer Stages</h2>
+      <p class="text-muted">Understanding how cancer is staged helps doctors plan the best treatment.</p>
+    </div>
+    <div class="row g-3 justify-content-center">
+      {% set stages = [
+        ('0', 'Stage 0 (In Situ)', 'Non-invasive. Cancer cells present but have not spread to surrounding tissue. Near 100% survival rate.', 'success', '~100%'),
+        ('I', 'Stage I', 'Early stage. Small tumor (up to 2 cm) confined to breast or with tiny spread to lymph nodes.', 'primary', '~99%'),
+        ('II', 'Stage II', 'Cancer has grown larger (2-5 cm) or spread to 1-3 nearby lymph nodes.', 'info', '~86%'),
+        ('III', 'Stage III', 'Locally advanced. Cancer is larger or has spread to more lymph nodes or nearby tissues.', 'warning', '~57%'),
+        ('IV', 'Stage IV', 'Metastatic. Cancer has spread to distant organs such as lungs, liver, bones, or brain.', 'danger', '~28%')
+      ] %}
+      {% for num, title, desc, color, survival in stages %}
+      <div class="col-sm-6 col-lg-4">
+        <div class="stage-card border-{{ color }}">
+          <div class="stage-number bg-{{ color }} text-white">{{ num }}</div>
+          <h6 class="fw-bold mt-3 mb-2">{{ title }}</h6>
+          <p class="text-muted small mb-2">{{ desc }}</p>
+          <div class="badge bg-{{ color }}-subtle text-{{ color }} rounded-pill px-3 py-1 fw-semibold">
+            5-Year Survival: {{ survival }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="text-center text-muted small mt-4">
+      <i class="bi bi-info-circle me-1"></i>Survival rates are approximate statistics. Individual outcomes vary. Source: American Cancer Society.
+    </p>
+  </div>
+</section>
+
+<!-- ── TREATMENT ─────────────────────────────────────────────────────── -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="awareness-badge mb-3">Treatment</span>
+      <h2 class="fw-bold">Treatment Options</h2>
+      <p class="text-muted">Modern medicine offers multiple effective treatment pathways, often used in combination.</p>
+    </div>
+    <div class="row g-4">
+      {% set treatments = [
+        ('bi-scissors', '#3b5bdb', 'Surgery', ['Lumpectomy (breast-conserving surgery)', 'Mastectomy (removal of one or both breasts)', 'Sentinel node biopsy', 'Breast reconstruction after surgery']),
+        ('bi-broadcast', '#e91e63', 'Radiation Therapy', ['External beam radiation', 'Brachytherapy (internal radiation)', 'Used after surgery to kill remaining cells', 'Targets specific areas to minimize damage']),
+        ('bi-capsule', '#9c27b0', 'Chemotherapy', ['Uses drugs to destroy cancer cells', 'Can be given before surgery (neoadjuvant)', 'Or after surgery (adjuvant)', 'Targets rapidly dividing cells']),
+        ('bi-heart-pulse', '#f44336', 'Hormone Therapy', ['Blocks estrogen from fueling cancer growth', 'Tamoxifen, Letrozole, Anastrozole', 'Used for hormone receptor-positive cancers', 'Usually given for 5-10 years']),
+        ('bi-robot', '#00897b', 'Targeted Therapy', ['HER2 inhibitors (Trastuzumab/Herceptin)', 'CDK4/6 inhibitors for HR+ cancers', 'PARP inhibitors for BRCA mutations', 'More precise, fewer side effects than chemo']),
+        ('bi-shield-check', '#ff6f00', 'Immunotherapy', ['Boosts immune system to fight cancer', 'PD-L1 inhibitors for triple-negative cancer', 'Checkpoint inhibitors', 'Currently used for advanced/metastatic cases'])
+      ] %}
+      {% for icon, color, title, items in treatments %}
+      <div class="col-md-6 col-lg-4">
+        <div class="treatment-card h-100 rounded-4 shadow-sm p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="treatment-icon" style="background: {{ color }}20; color: {{ color }};">
+              <i class="bi {{ icon }} fs-4"></i>
+            </div>
+            <h5 class="fw-bold mb-0" style="color: {{ color }};">{{ title }}</h5>
+          </div>
+          <ul class="list-unstyled mb-0">
+            {% for item in items %}
+            <li class="d-flex align-items-start gap-2 py-1 border-bottom">
+              <i class="bi bi-check2 mt-1 flex-shrink-0" style="color: {{ color }};"></i>
+              <span class="text-muted small">{{ item }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── MYTHS vs FACTS ────────────────────────────────────────────────── -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="awareness-badge mb-3">Myths vs Facts</span>
+      <h2 class="fw-bold">Common Misconceptions</h2>
+      <p class="text-muted">Misinformation can harm. Let's separate myths from facts.</p>
+    </div>
+    <div class="row g-4">
+      {% set myths = [
+        ('A lump always means cancer.', 'Most breast lumps (about 80%) are benign. However, any new lump should be evaluated by a doctor promptly.'),
+        ('Only women get breast cancer.', 'Men can develop breast cancer too, accounting for about 1% of all cases. Men have breast tissue and can develop the same types of breast cancer.'),
+        ('Small-breasted women have lower risk.', 'Breast size has no bearing on breast cancer risk. Cancer develops in breast tissue, regardless of breast size.'),
+        ('Underwire bras cause breast cancer.', 'There is no scientific evidence that wearing underwire bras or any type of bra increases the risk of breast cancer.'),
+        ('Breast cancer is always hereditary.', 'Only 5-10% of breast cancers are linked to inherited gene mutations. The majority occur in people with no family history.'),
+        ('If no symptoms, no need to check.', 'Early-stage breast cancer often has no symptoms. Regular mammograms and self-exams can detect cancer before symptoms appear.')
+      ] %}
+      {% for myth, fact in myths %}
+      <div class="col-md-6">
+        <div class="myth-fact-card rounded-4 shadow-sm">
+          <div class="myth-part">
+            <div class="d-flex align-items-start gap-2">
+              <i class="bi bi-x-circle-fill text-danger fs-5 flex-shrink-0 mt-1"></i>
+              <div>
+                <div class="fw-semibold text-danger small text-uppercase mb-1">Myth</div>
+                <p class="fw-bold mb-0">"{{ myth }}"</p>
+              </div>
+            </div>
+          </div>
+          <div class="fact-part">
+            <div class="d-flex align-items-start gap-2">
+              <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0 mt-1"></i>
+              <div>
+                <div class="fw-semibold text-success small text-uppercase mb-1">Fact</div>
+                <p class="text-muted small mb-0">{{ fact }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────────── -->
+<section class="awareness-cta-section py-5 text-white text-center">
+  <div class="container">
+    <i class="bi bi-heart-pulse-fill" style="font-size:3rem; color:#ffe0f0;"></i>
+    <h2 class="fw-bold mt-3 mb-3">Take Action Today</h2>
+    <p class="lead opacity-90 mb-4" style="max-width:600px; margin:auto;">
+      Early detection is the most powerful tool against breast cancer.
+      Register on CANCERAI to get AI-powered screening and connect with expert oncologists.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg fw-bold px-5 py-3">
+        <i class="bi bi-person-plus-fill me-2"></i>Register for Free Screening
+      </a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+      </a>
+    </div>
+    <p class="mt-4 small opacity-70">
+      <i class="bi bi-telephone-fill me-1"></i>National Breast Cancer Helpline: <strong>1-800-227-2345</strong>
+      &nbsp;|&nbsp;
+      <i class="bi bi-globe me-1"></i>www.cancer.org
+    </p>
+  </div>
+</section>
+
+{% endblock %}

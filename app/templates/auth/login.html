@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Sign In – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-gradient-primary text-white py-4 rounded-top-4 text-center">
+          <i class="bi bi-heart-pulse-fill fs-1 text-warning mb-2 d-block"></i>
+          <h3 class="fw-bold mb-0">Welcome Back</h3>
+          <p class="small opacity-90 mb-0 mt-1">Sign in to CANCERAI</p>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <form method="POST" action="{{ url_for('auth.login') }}">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email or Username</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control" name="identifier"
+                       placeholder="email@example.com or username" autofocus required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input type="password" class="form-control" name="password"
+                       placeholder="Your password" id="loginPwd" required>
+                <button class="btn btn-outline-secondary" type="button" id="toggleLoginPwd">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" name="remember" id="remember">
+              <label class="form-check-label small" for="remember">Remember me for 12 hours</label>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+              </button>
+            </div>
+          </form>
+          <hr class="my-4">
+          <div class="text-center">
+            <p class="text-muted mb-2">Don't have an account?</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary flex-fill fw-semibold">
+                <i class="bi bi-person-heart me-1"></i>Patient
+              </a>
+              <a href="{{ url_for('auth.register') }}" class="btn btn-outline-success flex-fill fw-semibold">
+                <i class="bi bi-hospital me-1"></i>Doctor
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.getElementById('toggleLoginPwd').addEventListener('click',function(){
+    const p=document.getElementById('loginPwd');
+    p.type=p.type==='password'?'text':'password';
+    this.querySelector('i').className=p.type==='password'?'bi bi-eye':'bi bi-eye-slash';
+  });
+</script>
+{% endblock %}

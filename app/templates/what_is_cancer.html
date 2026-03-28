@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}What is Cancer – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold bg-info" style="font-size:.8rem; letter-spacing:.06em;">KNOWLEDGE BASE</span>
+    <h1 class="fw-bold display-5 mb-3">What is <span class="text-danger">Cancer</span>?</h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      Understanding cancer is the first step toward fighting it. Learn about how cancer develops, its types, and why early detection matters.
+    </p>
+  </div>
+
+  <!-- Overview -->
+  <div class="row g-5 mb-5">
+    <div class="col-lg-8 mx-auto">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-3"><i class="bi bi-patch-question text-info me-2"></i>Understanding Cancer</h3>
+          <p class="text-muted">
+            Cancer is a group of diseases involving <strong>abnormal cell growth</strong> with the potential to invade or spread to other parts of the body.
+            Normally, human cells grow and divide to form new cells as the body needs them. When cells grow old or become damaged, they die, and new cells take their place.
+          </p>
+          <p class="text-muted">
+            When cancer develops, this orderly process breaks down. As cells become more and more abnormal, old or damaged cells survive when they should die, and new cells form when they are not needed.
+            These extra cells can divide without stopping and may form growths called <strong>tumors</strong>.
+          </p>
+          <div class="alert alert-warning rounded-3 mt-4">
+            <i class="bi bi-lightbulb me-2"></i>
+            <strong>Key Fact:</strong> Cancer is the second leading cause of death globally, accounting for approximately 10 million deaths in 2020.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Types -->
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <h3 class="fw-bold text-center mb-4">Common Types of Cancer</h3>
+    </div>
+    {% for icon, name, desc, color in [
+      ('bi-lungs', 'Lung Cancer', 'The leading cause of cancer deaths worldwide. Often linked to smoking but can also affect non-smokers.', 'primary'),
+      ('bi-heart-pulse', 'Breast Cancer', 'The most common cancer in women globally. Early detection through screening greatly improves outcomes.', 'danger'),
+      ('bi-droplet', 'Blood Cancer', 'Includes leukemia, lymphoma, and myeloma. Affects the production and function of blood cells.', 'info'),
+      ('bi-shield-exclamation', 'Skin Cancer', 'The most common cancer overall. UV radiation from the sun is the primary risk factor.', 'warning'),
+      ('bi-circle', 'Colon Cancer', 'Begins in the large intestine. Regular screening after age 45 can detect it early.', 'success'),
+      ('bi-activity', 'Prostate Cancer', 'One of the most common cancers in men. Often slow-growing and highly treatable when found early.', 'secondary')
+    ] %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card border-0 shadow-sm h-100 rounded-4 card-hover">
+        <div class="card-body p-4 text-center">
+          <div class="rounded-circle bg-{{ color }} bg-opacity-10 p-3 d-inline-block mb-3">
+            <i class="bi {{ icon }} text-{{ color }} fs-2"></i>
+          </div>
+          <h5 class="fw-semibold mb-2">{{ name }}</h5>
+          <p class="text-muted small mb-0">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- How Cancer Develops -->
+  <div class="row g-5 mb-5">
+    <div class="col-lg-8 mx-auto">
+      <div class="card border-0 shadow-sm rounded-4 bg-dark text-white">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4"><i class="bi bi-arrow-repeat text-warning me-2"></i>How Cancer Develops</h3>
+          <div class="row g-3">
+            {% for step, title, desc in [
+              ('1', 'DNA Mutation', 'Changes in DNA instructions cause cells to behave abnormally.'),
+              ('2', 'Uncontrolled Growth', 'Mutated cells ignore normal stop signals and multiply rapidly.'),
+              ('3', 'Tumor Formation', 'Accumulated abnormal cells form a mass called a tumor.'),
+              ('4', 'Invasion', 'Cancer cells can invade nearby tissues and lymph nodes.'),
+              ('5', 'Metastasis', 'Cancer spreads to distant organs through blood or lymphatic system.'),
+              ('6', 'Diagnosis', 'Early detection through screening, imaging, or biopsy is critical.')
+            ] %}
+            <div class="col-md-6">
+              <div class="d-flex align-items-start gap-3">
+                <span class="badge bg-warning text-dark rounded-circle p-2 fw-bold" style="min-width:32px; height:32px; line-height:16px;">{{ step }}</span>
+                <div>
+                  <h6 class="fw-semibold text-warning mb-1">{{ title }}</h6>
+                  <p class="text-muted small mb-0">{{ desc }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prevention Tips -->
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4"><i class="bi bi-shield-check text-success me-2"></i>Prevention & Early Detection</h3>
+          <div class="row g-3">
+            {% for tip in [
+              'Avoid tobacco and limit alcohol consumption',
+              'Maintain a healthy weight and stay physically active',
+              'Eat a balanced diet rich in fruits and vegetables',
+              'Protect your skin from excessive UV exposure',
+              'Get vaccinated (HPV, Hepatitis B)',
+              'Get regular screenings — early detection saves lives',
+              'Know your family history of cancer',
+              'Report unusual symptoms to your doctor promptly'
+            ] %}
+            <div class="col-md-6">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span class="small">{{ tip }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

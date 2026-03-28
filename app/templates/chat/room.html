@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block title %}Consultation Chat – CANCERAI{% endblock %}
+{% block extra_css %}
+<style>
+  .chat-container { height: 420px; overflow-y: auto; background: #f8f9fa; }
+  .msg-bubble { max-width: 75%; }
+  .msg-me   { margin-left: auto; }
+  .msg-them { margin-right: auto; }
+  .bubble-me   { background: var(--bs-primary); color: #fff; border-radius: 18px 18px 4px 18px; }
+  .bubble-them { background: #fff; border: 1px solid #dee2e6; border-radius: 18px 18px 18px 4px; }
+  #chatInput { border-radius: 0 0 0.5rem 0.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Header -->
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white py-3 px-4">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar-chat">
+                {% if current_user.role == 'patient' %}
+                  {{ consult.doctor.user.full_name[0].upper() }}
+                {% else %}
+                  {{ consult.patient.user.full_name[0].upper() }}
+                {% endif %}
+              </div>
+              <div>
+                {% if current_user.role == 'patient' %}
+                <h5 class="mb-0 fw-bold">Dr. {{ consult.doctor.user.full_name }}</h5>
+                <small class="opacity-90">{{ consult.doctor.specialization }}</small>
+                {% else %}
+                <h5 class="mb-0 fw-bold">{{ consult.patient.user.full_name }}</h5>
+                <small class="opacity-90">Patient</small>
+                {% endif %}
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-{{ 'warning' if consult.status=='requested' else 'success' if consult.status in ['accepted','in_progress'] else 'secondary' }} px-3 py-2">
+                <i class="bi bi-circle-fill me-1" style="font-size:0.4rem"></i>
+                {{ consult.status.replace('_',' ').title() }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnosis Summary Bar -->
+        {% if consult.diagnosis %}
+        <div class="px-4 py-2 bg-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }} bg-opacity-10
+                    border-bottom border-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }}">
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <img src="{{ url_for('static', filename='uploads/' + consult.diagnosis.image_filename) }}"
+                 class="rounded-2 shadow-sm" style="width:46px;height:46px;object-fit:cover;">
+            <div>
+              <span class="badge bg-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }} me-2">
+                {{ consult.diagnosis.prediction }}
+              </span>
+              <small class="text-muted">Confidence: <strong>{{ consult.diagnosis.confidence }}%</strong>
+              · Risk: <strong>{{ consult.diagnosis.risk_level }}</strong></small>
+            </div>
+            <a href="{{ url_for('doctor.view_diagnosis', diag_id=consult.diagnosis_id) if current_user.role=='doctor'
+                       else url_for('patient.result', diagnosis_id=consult.diagnosis_id) }}"
+               class="btn btn-sm btn-outline-secondary ms-auto">
+              <i class="bi bi-eye me-1"></i>Full Report
+            </a>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Chat Messages -->
+        <div class="chat-container p-4" id="chatMessages">
+          {% if not messages %}
+          <div class="text-center text-muted my-5">
+            <i class="bi bi-chat-dots display-4 d-block mb-3"></i>
+            <p>No messages yet. Say hello!</p>
+          </div>
+          {% endif %}
+          {% for msg in messages %}
+          <div class="d-flex mb-3 {% if msg.sender_id == current_user.id %}justify-content-end{% endif %}">
+            <div class="msg-bubble msg-{{ 'me' if msg.sender_id == current_user.id else 'them' }}">
+              {% if msg.sender_id != current_user.id %}
+              <div class="small text-muted ms-2 mb-1 fw-semibold">{{ msg.sender.full_name }}</div>
+              {% endif %}
+              <div class="p-3 shadow-sm bubble-{{ 'me' if msg.sender_id == current_user.id else 'them' }}">
+                {{ msg.content }}
+              </div>
+              <div class="text-muted mt-1 me-2 text-end" style="font-size:0.7rem;">{{ msg.timestamp.strftime('%H:%M') }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Message Input -->
+        {% if consult.status in ['accepted', 'in_progress', 'requested'] %}
+        <div class="card-footer p-0 border-0">
+          <div class="d-flex align-items-center p-3 gap-2">
+            <input type="text" id="chatInput" class="form-control form-control-lg rounded-pill"
+                   placeholder="Type your message…" autocomplete="off">
+            <button id="sendBtn" class="btn btn-primary btn-lg rounded-circle" style="width:48px;height:48px;">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Doctor: Complete Consultation -->
+        {% if current_user.role == 'doctor' %}
+        <div class="card-footer border-top py-3 px-4">
+          <form method="POST" action="{{ url_for('doctor.complete_consultation', consult_id=consult.id) }}"
+                id="completeForm">
+            <div class="mb-2">
+              <textarea class="form-control" name="doctor_notes" rows="2"
+                        placeholder="Add final clinical notes and recommendations…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success fw-semibold">
+              <i class="bi bi-check-circle me-2"></i>Mark as Complete & Save Notes
+            </button>
+          </form>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="card-footer text-center py-3 bg-light text-muted">
+          <i class="bi bi-lock me-2"></i>
+          This consultation has been <strong>{{ consult.status.replace('_',' ').title() }}</strong>.
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+  const ROOM  = '{{ consult.id }}';
+  const ME_ID = {{ current_user.id }};
+  const ME_NAME = '{{ current_user.full_name }}';
+
+  const socket = io();
+  socket.emit('join', { room: ROOM });
+
+  const chatBox  = document.getElementById('chatMessages');
+  const input    = document.getElementById('chatInput');
+  const sendBtn  = document.getElementById('sendBtn');
+
+  function scrollBottom(){ chatBox.scrollTop = chatBox.scrollHeight; }
+  scrollBottom();
+
+  function appendMessage(data){
+    const isMe = (data.sender === ME_NAME);
+    const html = `
+      <div class="d-flex mb-3 ${isMe ? 'justify-content-end' : ''}">
+        <div class="msg-bubble msg-${isMe ? 'me' : 'them'}">
+          ${!isMe ? `<div class="small text-muted ms-2 mb-1 fw-semibold">${data.sender}</div>` : ''}
+          <div class="p-3 shadow-sm bubble-${isMe ? 'me' : 'them'}">${data.content}</div>
+          <div class="text-muted mt-1 me-2 text-end" style="font-size:0.7rem;">${data.timestamp}</div>
+        </div>
+      </div>`;
+    chatBox.insertAdjacentHTML('beforeend', html);
+    scrollBottom();
+  }
+
+  socket.on('receive_message', appendMessage);
+  socket.on('status', d => console.log(d.msg));
+
+  function sendMessage(){
+    const msg = input.value.trim();
+    if(!msg) return;
+    socket.emit('send_message', {
+      room: ROOM,
+      consultation_id: ROOM,
+      message: msg
+    });
+    input.value = '';
+  }
+
+  sendBtn && sendBtn.addEventListener('click', sendMessage);
+  input   && input.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+  });
+</script>
+{% endblock %}

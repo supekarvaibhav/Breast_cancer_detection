@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Patient Dashboard – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <!-- Welcome Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+      <h2 class="fw-bold mb-1">
+        <i class="bi bi-person-heart text-primary me-2"></i>
+        Welcome, {{ current_user.full_name.split()[0] }}
+      </h2>
+      <p class="text-muted mb-0">Track your diagnoses and consultations</p>
+    </div>
+    <a href="{{ url_for('patient.upload') }}" class="btn btn-primary btn-lg fw-semibold shadow-sm">
+      <i class="bi bi-cloud-upload me-2"></i>New Analysis
+    </a>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-sm-4">
+      <div class="card border-0 shadow-sm text-center p-4 h-100 bg-primary bg-opacity-10">
+        <div class="fs-1 fw-bold text-primary">{{ stats.total }}</div>
+        <div class="text-muted fw-semibold mt-1"><i class="bi bi-clipboard2-pulse me-1"></i>Total Analyses</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card border-0 shadow-sm text-center p-4 h-100 bg-success bg-opacity-10">
+        <div class="fs-1 fw-bold text-success">{{ stats.benign }}</div>
+        <div class="text-muted fw-semibold mt-1"><i class="bi bi-shield-check me-1 text-success"></i>Benign</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card border-0 shadow-sm text-center p-4 h-100 bg-danger bg-opacity-10">
+        <div class="fs-1 fw-bold text-danger">{{ stats.malignant }}</div>
+        <div class="text-muted fw-semibold mt-1"><i class="bi bi-exclamation-triangle me-1 text-danger"></i>Malignant</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Upload CTA -->
+  <div class="card border-2 border-primary border-dashed bg-primary bg-opacity-5 mb-4">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-cloud-upload fs-1 text-primary mb-3 d-block"></i>
+      <h5 class="fw-bold">Upload a Histopathology Image</h5>
+      <p class="text-muted mb-3">Get instant AI-powered analysis in seconds</p>
+      <a href="{{ url_for('patient.upload') }}" class="btn btn-primary px-5 py-2 fw-semibold">
+        <i class="bi bi-upload me-2"></i>Upload Image
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Diagnoses -->
+  {% if recent_diagnoses %}
+  <h4 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-muted"></i>Recent Analyses</h4>
+  <div class="table-responsive rounded-3 shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th><th>Date</th><th>Result</th><th>Confidence</th><th>Risk</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in recent_diagnoses %}
+        <tr>
+          <td class="text-muted small">{{ d.id }}</td>
+          <td class="small">{{ d.created_at.strftime('%b %d, %Y') }}</td>
+          <td>
+            <span class="badge bg-{{ 'danger' if d.is_malignant else 'success' }} px-3 py-2">
+              <i class="bi bi-{{ 'exclamation-triangle' if d.is_malignant else 'shield-check' }} me-1"></i>
+              {{ d.prediction }}
+            </span>
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1" style="height:8px;width:80px;">
+                <div class="progress-bar bg-{{ 'danger' if d.confidence > 80 else 'warning' }}"
+                     style="width:{{ d.confidence }}%"></div>
+              </div>
+              <span class="small fw-semibold">{{ d.confidence }}%</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge rounded-pill
+              bg-{{ 'danger' if d.risk_level=='Very High' else 'warning text-dark' if d.risk_level in ['High','Moderate'] else 'success' }}">
+              {{ d.risk_level }}
+            </span>
+          </td>
+          <td>
+            <a href="{{ url_for('patient.result', diagnosis_id=d.id) }}"
+               class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-eye me-1"></i>View
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="text-end mt-2">
+    <a href="{{ url_for('patient.history') }}" class="btn btn-link text-decoration-none">
+      View all analyses <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <i class="bi bi-info-circle me-2"></i>
+    No analyses yet. <a href="{{ url_for('patient.upload') }}" class="alert-link">Upload your first image</a> to get started.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

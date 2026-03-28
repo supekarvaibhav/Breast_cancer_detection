@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block title %}CANCERAI – Diagnose Cancer Faster{% endblock %}
+
+{% block content %}
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<section class="hero-section py-5">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="badge badge-accent mb-3 px-3 py-2 fs-6">
+          <i class="bi bi-stars me-1"></i>CNN + SVM Hybrid AI
+        </span>
+        <h1 class="display-4 fw-bold lh-sm mb-4">
+          DIAGNOSE CANCER<br>FASTER. MORE<br>ACCURATELY.<br>
+          <span style="color: var(--accent);">REMOTELY.</span>
+        </h1>
+        <p class="lead mb-4">
+          Web Platform for Digital Pathology &amp; Radiology with AI
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{{ url_for('auth.login') }}" class="btn btn-accent btn-lg">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Login &amp; Try
+          </a>
+          <a href="{{ url_for('main.contact') }}" class="btn btn-outline-dark btn-lg">
+            <i class="bi bi-envelope me-2"></i>Contact Us
+          </a>
+        </div>
+        <!-- Stats bar -->
+        <div class="row mt-5 g-3">
+          <div class="col-4 text-center">
+            <div class="stat-card py-3 px-2 rounded-3">
+              <div class="fs-3 fw-bold">≥90%</div>
+              <div class="small">Accuracy</div>
+            </div>
+          </div>
+          <div class="col-4 text-center">
+            <div class="stat-card py-3 px-2 rounded-3">
+              <div class="fs-3 fw-bold">7,909</div>
+              <div class="small">BreakHis Images</div>
+            </div>
+          </div>
+          <div class="col-4 text-center">
+            <div class="stat-card py-3 px-2 rounded-3">
+              <div class="fs-3 fw-bold">4x</div>
+              <div class="small">Magnifications</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <div class="hero-illustration p-4">
+          <i class="bi bi-heart-pulse hero-icon"></i>
+          <div class="mt-3">
+            <div class="badge px-3 py-2 me-2 fs-5" style="background: var(--success); color: #fff;">
+              <i class="bi bi-shield-check me-1"></i>Benign
+            </div>
+            <div class="badge px-3 py-2 fs-5" style="background: var(--danger); color: #fff;">
+              <i class="bi bi-exclamation-triangle me-1"></i>Malignant
+            </div>
+          </div>
+          <div class="mt-3 small" style="color: var(--text-muted);">Results in &lt; 3 seconds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ──────────────────────────────────────────────── -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-2">How It Works</h2>
+    <p class="text-center mb-5" style="color: var(--text-muted);">Three simple steps to early detection</p>
+    <div class="row g-4 justify-content-center">
+      {% set steps = [
+        ('1', 'bi-person-plus', 'Register', 'Create your patient or doctor account in seconds.', 'accent-blue'),
+        ('2', 'bi-cloud-upload',  'Upload Image', 'Upload your histopathology slide image (PNG/JPG/TIF).', 'accent-cyan'),
+        ('3', 'bi-cpu',           'AI Analysis', 'Our CNN+SVM model analyses the image instantly.', 'accent-amber'),
+        ('4', 'bi-chat-dots',     'Consult Doctor', 'If malignant, consult a specialist directly on the platform.', 'accent-green')
+      ] %}
+      {% for num, icon, title, desc, accent in steps %}
+      <div class="col-sm-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100 text-center p-4 card-hover card-accent-top {{ accent }}">
+          <div class="step-badge text-white rounded-3 mx-auto mb-3"
+               style="background: {% if accent == 'accent-blue' %}#0077cc{% elif accent == 'accent-cyan' %}#0891b2{% elif accent == 'accent-amber' %}#f59e0b{% else %}#16a34a{% endif %};">
+            {{ num }}
+          </div>
+          <i class="bi {{ icon }} fs-2 mb-3" style="color: {% if accent == 'accent-blue' %}#0077cc{% elif accent == 'accent-cyan' %}#0891b2{% elif accent == 'accent-amber' %}#f59e0b{% else %}#16a34a{% endif %};"></i>
+          <h5 class="fw-semibold mb-2">{{ title }}</h5>
+          <p class="small mb-0" style="color: var(--text-muted);">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── ROLES ─────────────────────────────────────────────────────── -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-2">Built For Everyone</h2>
+    <p class="text-center mb-5" style="color: var(--text-muted);">Whether you're a patient seeking answers or a doctor providing care</p>
+    <div class="row g-4">
+      <!-- Patient Card -->
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100 overflow-hidden card-hover">
+          <div class="role-header patient-header py-3 px-4">
+            <h4 class="mb-0 text-white"><i class="bi bi-person-heart me-2"></i>For Patients</h4>
+          </div>
+          <div class="card-body p-4">
+            <ul class="list-unstyled mb-4">
+              {% for item in ['Upload histopathology images', 'Instant AI analysis (Benign/Malignant)',
+                              'Risk level assessment', 'View full diagnosis history',
+                              'Request doctor consultation if positive',
+                              'Real-time chat with specialists'] %}
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--success);"></i>{{ item }}</li>
+              {% endfor %}
+            </ul>
+            <a href="{{ url_for('auth.register') }}?role=patient"
+               class="btn btn-primary w-100 fw-semibold">
+              <i class="bi bi-person-plus me-2"></i>Register as Patient
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Doctor Card -->
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100 overflow-hidden card-hover">
+          <div class="role-header doctor-header py-3 px-4">
+            <h4 class="mb-0 text-white"><i class="bi bi-hospital me-2"></i>For Doctors</h4>
+          </div>
+          <div class="card-body p-4">
+            <ul class="list-unstyled mb-4">
+              {% for item in ['Review AI-generated diagnoses', 'AI as decision-support tool',
+                              'Manage patient consultations', 'Real-time chat with patients',
+                              'Add clinical notes to diagnoses',
+                              'Toggle availability for consultations'] %}
+              <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--success);"></i>{{ item }}</li>
+              {% endfor %}
+            </ul>
+            <a href="{{ url_for('auth.register') }}?role=doctor"
+               class="btn btn-success w-100 fw-semibold">
+              <i class="bi bi-hospital me-2"></i>Register as Doctor
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MODEL INFO ────────────────────────────────────────────────── -->
+<section class="science-section py-5 text-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-md-6">
+        <h3 class="fw-bold mb-3" style="color: #fff;">The Science Behind CANCERAI</h3>
+        <p style="color: rgba(255,255,255,.6);">Our hybrid architecture combines deep learning feature extraction with classical machine learning classification:</p>
+        <div class="model-pipeline mt-4">
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--info);">INPUT</span>Histopathology Image (224×224 RGB)</div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--accent);">CNN</span>EfficientNetB0 Feature Extractor (256-D vector)</div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--warning); color: #1a1a1a;">SVM</span>RBF Kernel SVM Classifier</div>
+          <div class="pipeline-arrow">↓</div>
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--success);">OUTPUT</span>Benign / Malignant + Confidence Score</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row g-3">
+          {% for label, val, color in [('Dataset', 'BreakHis v1', 'var(--info)'), ('Magnifications', '40x · 100x · 200x · 400x', 'var(--warning)'),
+             ('Architecture', 'EfficientNetB0 + SVM (RBF)', 'var(--accent)'), ('Target Accuracy', '≥ 90%', 'var(--success)'),
+             ('Classes', 'Benign (4) · Malignant (4)', 'var(--danger)'), ('Training', 'Phase 1: Frozen base + Phase 2: Fine-tune', '#94a3b8')] %}
+          <div class="col-6">
+            <div class="tech-card p-3 rounded-3 text-center">
+              <div class="fw-bold mb-1" style="color: {{ color }};">{{ label }}</div>
+              <small style="color: rgba(255,255,255,.5);">{{ val }}</small>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AVAILABLE DOCTORS ──────────────────────────────────────────── -->
+{% if doctors %}
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-2">Available Specialists</h2>
+    <p class="text-center mb-5" style="color: var(--text-muted);">Ready to consult with you now</p>
+    <div class="row g-4 justify-content-center">
+      {% for dp in doctors %}
+      <div class="col-sm-6 col-lg-4">
+        <div class="card border-0 shadow-sm h-100 text-center p-4 card-hover">
+          <div class="doctor-avatar mb-3">{{ dp.user.full_name[0].upper() }}</div>
+          <h5 class="fw-semibold mb-1">Dr. {{ dp.user.full_name }}</h5>
+          <div class="small mb-2" style="color: var(--text-muted);">{{ dp.specialization }}</div>
+          {% if dp.hospital %}<div class="small mb-2" style="color: var(--accent);"><i class="bi bi-hospital me-1"></i>{{ dp.hospital }}</div>{% endif %}
+          <div class="badge mt-auto" style="background: var(--success); color: #fff;">
+            <i class="bi bi-circle-fill me-1" style="font-size:0.5rem"></i>Available
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Upload Image – CANCERAI{% endblock %}
+{% block content %}
+<div class="container-fluid px-4 py-5">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="fw-bold mb-1 text-center">
+        <i class="bi bi-cloud-upload text-primary me-2"></i>Upload Histopathology Image
+      </h2>
+      <p class="text-center text-muted mb-5">AI analysis will complete in &lt; 3 seconds</p>
+
+      <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <!-- Drop zone -->
+            <div class="upload-zone text-center p-5 mb-4 rounded-4 border-2 border-dashed"
+                 id="dropZone" onclick="document.getElementById('imageInput').click()">
+              <i class="bi bi-image upload-zone-icon text-muted d-block mb-3"></i>
+              <h5 class="fw-semibold mb-2">Drag &amp; Drop or Click to Browse</h5>
+              <p class="text-muted small mb-3">Supported: PNG, JPG, JPEG, TIF, TIFF, BMP (max 16 MB)</p>
+              <input type="file" id="imageInput" name="image" class="d-none"
+                     accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp" required>
+              <div id="filePreviewWrapper" class="d-none mt-3">
+                <img id="previewImg" src="#" alt="Preview"
+                     class="img-thumbnail rounded-3 shadow-sm" style="max-height:250px;max-width:100%">
+                <p id="fileName" class="small text-muted mt-2 mb-0"></p>
+              </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="alert alert-info border-0 rounded-3 mb-4">
+              <h6 class="alert-heading fw-bold"><i class="bi bi-info-circle me-2"></i>Tips for Best Results</h6>
+              <ul class="mb-0 small">
+                <li>Use H&amp;E stained histopathology slides</li>
+                <li>Supported magnifications: 40x, 100x, 200x, 400x</li>
+                <li>Ensure image is clear and not blurry</li>
+                <li>BreakHis dataset format recommended</li>
+              </ul>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3" id="analyzeBtn" disabled>
+                <span id="btnText"><i class="bi bi-cpu me-2"></i>Analyse with AI</span>
+                <span id="btnSpinner" class="d-none">
+                  <span class="spinner-border spinner-border-sm me-2"></span>Analysing…
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="card border-warning border-2 mt-4 rounded-3">
+        <div class="card-body py-3">
+          <p class="mb-0 small text-muted">
+            <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+            <strong>Medical Disclaimer:</strong> This AI tool is for educational and supportive purposes only.
+            It does <strong>not</strong> replace professional medical diagnosis. Always consult a qualified
+            physician for medical advice and treatment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const input = document.getElementById('imageInput');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const dropZone = document.getElementById('dropZone');
+
+  input.addEventListener('change', function(){
+    if(this.files.length > 0){
+      const file = this.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('fileName').textContent = file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)';
+        document.getElementById('filePreviewWrapper').classList.remove('d-none');
+      };
+      reader.readAsDataURL(file);
+      analyzeBtn.disabled = false;
+      dropZone.classList.add('has-file');
+    }
+  });
+
+  // Drag & drop
+  ['dragover','dragenter'].forEach(e => dropZone.addEventListener(e, ev => {
+    ev.preventDefault(); dropZone.classList.add('drag-over');
+  }));
+  ['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => {
+    ev.preventDefault(); dropZone.classList.remove('drag-over');
+  }));
+  dropZone.addEventListener('drop', e => {
+    const files = e.dataTransfer.files;
+    if(files.length > 0){ input.files = files; input.dispatchEvent(new Event('change')); }
+  });
+
+  document.getElementById('uploadForm').addEventListener('submit', function(){
+    document.getElementById('btnText').classList.add('d-none');
+    document.getElementById('btnSpinner').classList.remove('d-none');
+    analyzeBtn.disabled = true;
+  });
+</script>
+{% endblock %}

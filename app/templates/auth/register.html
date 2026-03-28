@@ -1,0 +1,478 @@
+{% extends 'base.html' %}
+{% block title %}Register – CANCERAI{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── Questionnaire section styling ───────────────── */
+  .q-section {
+    background: var(--bg-light, #f1f5f9);
+    border-radius: var(--radius, 0.75rem);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+  }
+  .q-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .q-section-title i {
+    font-size: 1.1rem;
+  }
+  .q-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+  }
+  .q-row:last-child { border-bottom: none; }
+  .q-row-label {
+    font-size: 0.92rem;
+    color: var(--text-dark, #0d1b2a);
+  }
+  .q-radio-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  .q-radio-group .form-check {
+    margin: 0;
+    padding-left: 1.5em;
+  }
+  .q-radio-group .form-check-label {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .q-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+  }
+  .q-checkbox-grid .form-check-label {
+    font-size: 0.9rem;
+  }
+  .family-members-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 576px) {
+    .q-checkbox-grid { grid-template-columns: 1fr; }
+    .q-row { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header py-4 rounded-top-4" style="background: linear-gradient(135deg, var(--accent, #0077cc), #005a99);">
+          <h3 class="mb-0 text-center fw-bold text-white">
+            <i class="bi bi-person-plus me-2"></i>Create Account
+          </h3>
+          <p class="text-center mb-0 small mt-1" style="color: rgba(255,255,255,.8);">Join CANCERAI – Free for patients & doctors</p>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <form method="POST" action="{{ url_for('auth.register') }}">
+            <!-- Role picker -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">I am a <span class="text-danger">*</span></label>
+              <div class="d-flex gap-3">
+                <div class="form-check role-card flex-fill text-center p-3 rounded-3 border">
+                  <input class="form-check-input d-none" type="radio" name="role" id="rolePatient"
+                         value="patient" {% if form_data.get('role','patient')=='patient' %}checked{% endif %} required>
+                  <label class="form-check-label w-100 cursor-pointer" for="rolePatient">
+                    <i class="bi bi-person-heart d-block fs-2 mb-1" style="color: var(--accent);"></i>
+                    <span class="fw-semibold">Patient</span><br>
+                    <small class="text-muted">Upload & detect</small>
+                  </label>
+                </div>
+                <div class="form-check role-card flex-fill text-center p-3 rounded-3 border">
+                  <input class="form-check-input d-none" type="radio" name="role" id="roleDoctor"
+                         value="doctor" {% if form_data.get('role')=='doctor' %}checked{% endif %}>
+                  <label class="form-check-label w-100 cursor-pointer" for="roleDoctor">
+                    <i class="bi bi-hospital d-block fs-2 mb-1" style="color: var(--success);"></i>
+                    <span class="fw-semibold">Doctor</span><br>
+                    <small class="text-muted">Review & consult</small>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" name="full_name" placeholder="Your full name"
+                         value="{{ form_data.get('full_name','') }}" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Username <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-at"></i></span>
+                  <input type="text" class="form-control" name="username" placeholder="username"
+                         value="{{ form_data.get('username','') }}" required minlength="3">
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" name="email" placeholder="you@example.com"
+                         value="{{ form_data.get('email','') }}" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input type="password" class="form-control" name="password" placeholder="Min 6 chars" required minlength="6">
+                  <button class="btn btn-outline-secondary" type="button" id="togglePwd">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Confirm Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                  <input type="password" class="form-control" name="confirm_password" placeholder="Repeat password" required>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">Phone</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input type="tel" class="form-control" name="phone" placeholder="+1 234 567 8901"
+                         value="{{ form_data.get('phone','') }}">
+                </div>
+              </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════════
+                 PATIENT-SPECIFIC: Medical Risk Assessment Questionnaire
+                 ══════════════════════════════════════════════════════════ -->
+            <div id="patientFields" class="mt-4">
+              <hr>
+              <h5 class="fw-bold mb-1" style="color: var(--accent);"><i class="bi bi-clipboard2-pulse me-2"></i>Breast Cancer Risk Assessment</h5>
+              <p class="text-muted small mb-3">This information helps personalize your experience and support early detection.</p>
+
+              <!-- 1. Basic Information ─────────────────────────────── -->
+              <div class="q-section">
+                <div class="q-section-title">
+                  <i class="bi bi-person-vcard"></i> Basic Information
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Age <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                      <input type="number" class="form-control" name="age" placeholder="Your age"
+                             value="{{ form_data.get('age','') }}" min="1" max="120">
+                      <span class="input-group-text">years</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Gender <span class="text-danger">*</span></label>
+                    <select class="form-select" name="gender">
+                      <option value="female" {% if form_data.get('gender','female')=='female' %}selected{% endif %}>Female</option>
+                      <option value="male" {% if form_data.get('gender')=='male' %}selected{% endif %}>Male</option>
+                      <option value="other" {% if form_data.get('gender')=='other' %}selected{% endif %}>Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Personal Medical History ──────────────────────── -->
+              <div class="q-section">
+                <div class="q-section-title">
+                  <i class="bi bi-heart-pulse"></i> Personal Medical History
+                </div>
+
+                <!-- Previous breast cancer -->
+                <div class="q-row">
+                  <span class="q-row-label">Previous breast cancer</span>
+                  <div class="q-radio-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="prev_breast_cancer" id="pbc_yes"
+                             value="yes" {% if form_data.get('prev_breast_cancer')=='yes' %}checked{% endif %}>
+                      <label class="form-check-label" for="pbc_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="prev_breast_cancer" id="pbc_no"
+                             value="no" {% if form_data.get('prev_breast_cancer','no')=='no' %}checked{% endif %}>
+                      <label class="form-check-label" for="pbc_no">No</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional personal medical history (always visible; independent of prior cancer) -->
+                <div id="remainingMedicalHistory">
+                  <div class="q-row">
+                    <span class="q-row-label">Previous breast lumps or tumors</span>
+                    <div class="q-radio-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_breast_lumps" id="pbl_yes"
+                               value="yes" {% if form_data.get('prev_breast_lumps')=='yes' %}checked{% endif %}>
+                        <label class="form-check-label" for="pbl_yes">Yes</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_breast_lumps" id="pbl_no"
+                               value="no" {% if form_data.get('prev_breast_lumps','no')=='no' %}checked{% endif %}>
+                        <label class="form-check-label" for="pbl_no">No</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="q-row">
+                    <span class="q-row-label">History of breast surgery</span>
+                    <div class="q-radio-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_breast_surgery" id="pbs_yes"
+                               value="yes" {% if form_data.get('prev_breast_surgery')=='yes' %}checked{% endif %}>
+                        <label class="form-check-label" for="pbs_yes">Yes</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_breast_surgery" id="pbs_no"
+                               value="no" {% if form_data.get('prev_breast_surgery','no')=='no' %}checked{% endif %}>
+                        <label class="form-check-label" for="pbs_no">No</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="q-row">
+                    <span class="q-row-label">Radiation therapy in chest area</span>
+                    <div class="q-radio-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_radiation_therapy" id="prt_yes"
+                               value="yes" {% if form_data.get('prev_radiation_therapy')=='yes' %}checked{% endif %}>
+                        <label class="form-check-label" for="prt_yes">Yes</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="prev_radiation_therapy" id="prt_no"
+                               value="no" {% if form_data.get('prev_radiation_therapy','no')=='no' %}checked{% endif %}>
+                        <label class="form-check-label" for="prt_no">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. Family History ────────────────────────────────── -->
+              <div class="q-section" id="familyHistorySection">
+                <div class="q-section-title">
+                  <i class="bi bi-people"></i> Family History
+                </div>
+                <div class="q-row">
+                  <span class="q-row-label">Family history of breast cancer</span>
+                  <div class="q-radio-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="family_history_cancer" id="fhc_yes"
+                             value="yes" {% if form_data.get('family_history_cancer')=='yes' %}checked{% endif %}
+                             onchange="toggleFamilyMembers(this.value)">
+                      <label class="form-check-label" for="fhc_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="family_history_cancer" id="fhc_no"
+                             value="no" {% if form_data.get('family_history_cancer','no')=='no' %}checked{% endif %}
+                             onchange="toggleFamilyMembers(this.value)">
+                      <label class="form-check-label" for="fhc_no">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div id="familyMembersBox" class="family-members-box"
+                     style="display:{% if form_data.get('family_history_cancer')=='yes' %}block{% else %}none{% endif %};">
+                  <p class="small fw-semibold mb-2" style="color: var(--text-dark);">Who in your family? (check all that apply)</p>
+                  <div class="d-flex gap-4">
+                    {% set saved_members = form_data.get('family_cancer_members', '') %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="family_cancer_members" id="fm_mother"
+                             value="mother" {% if 'mother' in (saved_members if saved_members is string else '') %}checked{% endif %}>
+                      <label class="form-check-label" for="fm_mother">Mother</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="family_cancer_members" id="fm_sister"
+                             value="sister" {% if 'sister' in (saved_members if saved_members is string else '') %}checked{% endif %}>
+                      <label class="form-check-label" for="fm_sister">Sister</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="family_cancer_members" id="fm_aunt"
+                             value="aunt" {% if 'aunt' in (saved_members if saved_members is string else '') %}checked{% endif %}>
+                      <label class="form-check-label" for="fm_aunt">Aunt</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Current Symptoms ──────────────────────────────── -->
+              <div class="q-section" id="symptomsSection">
+                <div class="q-section-title">
+                  <i class="bi bi-bandaid"></i> Current Symptoms
+                </div>
+                <p class="small text-muted mb-2">Check any symptoms you are currently experiencing:</p>
+                <div class="q-checkbox-grid">
+                  {% set saved_symptoms = form_data.getlist('symptoms') if form_data.getlist is defined else [] %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="symptoms" id="sym_lump"
+                           value="lump" {% if 'lump' in saved_symptoms %}checked{% endif %}>
+                    <label class="form-check-label" for="sym_lump">Lump in breast or underarm</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="symptoms" id="sym_size"
+                           value="size_change" {% if 'size_change' in saved_symptoms %}checked{% endif %}>
+                    <label class="form-check-label" for="sym_size">Change in breast size or shape</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="symptoms" id="sym_discharge"
+                           value="nipple_discharge" {% if 'nipple_discharge' in saved_symptoms %}checked{% endif %}>
+                    <label class="form-check-label" for="sym_discharge">Nipple discharge</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="symptoms" id="sym_skin"
+                           value="skin_changes" {% if 'skin_changes' in saved_symptoms %}checked{% endif %}>
+                    <label class="form-check-label" for="sym_skin">Skin changes (redness or dimpling)</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="symptoms" id="sym_pain"
+                           value="breast_pain" {% if 'breast_pain' in saved_symptoms %}checked{% endif %}>
+                    <label class="form-check-label" for="sym_pain">Breast pain</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Lifestyle Factors ─────────────────────────────── -->
+              <div class="q-section" id="lifestyleSection">
+                <div class="q-section-title">
+                  <i class="bi bi-activity"></i> Lifestyle Factors
+                </div>
+                <div class="q-row">
+                  <span class="q-row-label">Smoking</span>
+                  <div class="q-radio-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="smoking" id="smoke_yes"
+                             value="yes" {% if form_data.get('smoking')=='yes' %}checked{% endif %}>
+                      <label class="form-check-label" for="smoke_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="smoking" id="smoke_no"
+                             value="no" {% if form_data.get('smoking','no')=='no' %}checked{% endif %}>
+                      <label class="form-check-label" for="smoke_no">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="q-row">
+                  <span class="q-row-label">Alcohol consumption</span>
+                  <div class="q-radio-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="alcohol" id="alc_yes"
+                             value="yes" {% if form_data.get('alcohol')=='yes' %}checked{% endif %}>
+                      <label class="form-check-label" for="alc_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="alcohol" id="alc_no"
+                             value="no" {% if form_data.get('alcohol','no')=='no' %}checked{% endif %}>
+                      <label class="form-check-label" for="alc_no">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="q-row">
+                  <span class="q-row-label">Physical activity level</span>
+                  <select class="form-select form-select-sm" name="physical_activity" style="max-width: 160px;">
+                    <option value="low" {% if form_data.get('physical_activity')=='low' %}selected{% endif %}>Low</option>
+                    <option value="moderate" {% if form_data.get('physical_activity','moderate')=='moderate' %}selected{% endif %}>Moderate</option>
+                    <option value="high" {% if form_data.get('physical_activity')=='high' %}selected{% endif %}>High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Doctor-specific fields -->
+            <div id="doctorFields" class="mt-3" style="display:none;">
+              <hr><p class="fw-semibold mb-3" style="color: var(--success);"><i class="bi bi-hospital me-1"></i>Doctor Information</p>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Specialization</label>
+                  <input type="text" class="form-control" name="specialization" placeholder="e.g. Oncology"
+                         value="{{ form_data.get('specialization','Oncology') }}">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Hospital / Clinic</label>
+                  <input type="text" class="form-control" name="hospital" placeholder="Hospital name"
+                         value="{{ form_data.get('hospital','') }}">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">License Number</label>
+                  <input type="text" class="form-control" name="license_number" placeholder="Medical license"
+                         value="{{ form_data.get('license_number','') }}">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Years of Experience</label>
+                  <input type="number" class="form-control" name="years_experience" min="0" max="60"
+                         value="{{ form_data.get('years_experience','0') }}">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Short Bio</label>
+                  <textarea class="form-control" name="bio" rows="2"
+                            placeholder="Brief professional bio…">{{ form_data.get('bio','') }}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3">
+                <i class="bi bi-shield-check me-2"></i>Analyze Risk & Create Account
+              </button>
+            </div>
+            <div class="text-center mt-3">
+              <span class="text-muted small">Already have an account?</span>
+              <a href="{{ url_for('auth.login') }}" class="fw-semibold ms-1">Sign In</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // ── Role toggle ──────────────────────────────────────────────
+  document.querySelectorAll('input[name="role"]').forEach(r => {
+    r.addEventListener('change', function(){
+      document.getElementById('doctorFields').style.display =
+        this.value === 'doctor' ? 'block' : 'none';
+      document.getElementById('patientFields').style.display =
+        this.value === 'patient' ? 'block' : 'none';
+      document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+      this.closest('.role-card').classList.add('selected');
+    });
+    if(r.checked) r.dispatchEvent(new Event('change'));
+  });
+
+  // ── Family history: show members if Yes ─────────────────────
+  function toggleFamilyMembers(val) {
+    document.getElementById('familyMembersBox').style.display =
+      val === 'yes' ? 'block' : 'none';
+  }
+
+  // ── Password toggle ─────────────────────────────────────────
+  document.getElementById('togglePwd').addEventListener('click', function(){
+    const pwd = this.previousElementSibling;
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    this.querySelector('i').className = pwd.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+  });
+</script>
+{% endblock %}

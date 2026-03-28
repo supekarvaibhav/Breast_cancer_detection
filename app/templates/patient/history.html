@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}Diagnosis History – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+      <h2 class="fw-bold mb-1"><i class="bi bi-clock-history text-primary me-2"></i>Diagnosis History</h2>
+      <p class="text-muted mb-0">All your AI analysis records</p>
+    </div>
+    <a href="{{ url_for('patient.upload') }}" class="btn btn-primary fw-semibold">
+      <i class="bi bi-plus-circle me-2"></i>New Analysis
+    </a>
+  </div>
+
+  {% if pagination and pagination.items %}
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th class="ps-4">#</th>
+            <th>Image</th>
+            <th>Date</th>
+            <th>Result</th>
+            <th>Confidence</th>
+            <th>Risk Level</th>
+            <th>Doctor Review</th>
+            <th class="pe-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in pagination.items %}
+          <tr>
+            <td class="ps-4 text-muted small">{{ d.id }}</td>
+            <td>
+              <img src="{{ url_for('static', filename='uploads/' + d.image_filename) }}"
+                   alt="Slide" class="rounded-2 shadow-sm" style="width:56px;height:56px;object-fit:cover;">
+            </td>
+            <td class="small">
+              {{ d.created_at.strftime('%b %d, %Y') }}<br>
+              <span class="text-muted" style="font-size:0.75rem;">{{ d.created_at.strftime('%H:%M') }}</span>
+            </td>
+            <td>
+              <span class="badge bg-{{ 'danger' if d.is_malignant else 'success' }} px-3 py-2">
+                <i class="bi bi-{{ 'exclamation-triangle' if d.is_malignant else 'shield-check' }} me-1"></i>
+                {{ d.prediction }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress flex-shrink-0" style="height:8px;width:70px">
+                  <div class="progress-bar bg-{{ 'danger' if d.confidence > 80 else 'warning' }}"
+                       style="width:{{ d.confidence }}%"></div>
+                </div>
+                <span class="small fw-semibold">{{ d.confidence }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge rounded-pill
+                bg-{{ 'danger' if d.risk_level=='Very High' else 'warning text-dark' if d.risk_level in ['High','Moderate'] else 'success' }}">
+                {{ d.risk_level }}
+              </span>
+            </td>
+            <td>
+              {% if d.doctor_notes %}
+              <span class="badge bg-success-subtle text-success">
+                <i class="bi bi-check2 me-1"></i>Reviewed
+              </span>
+              {% else %}
+              <span class="badge bg-secondary-subtle text-secondary">Pending</span>
+              {% endif %}
+            </td>
+            <td class="pe-4">
+              <a href="{{ url_for('patient.result', diagnosis_id=d.id) }}"
+                 class="btn btn-sm btn-outline-primary fw-semibold">
+                <i class="bi bi-eye me-1"></i>View
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  {% if pagination.pages > 1 %}
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('patient.history', page=pagination.prev_num) }}">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+      {% for p in pagination.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+        {% if p %}
+        <li class="page-item {% if p == pagination.page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('patient.history', page=p) }}">{{ p }}</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+        {% endif %}
+      {% endfor %}
+      <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('patient.history', page=pagination.next_num) }}">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% else %}
+  <div class="card border-0 shadow-sm rounded-4 text-center p-5">
+    <i class="bi bi-inbox display-4 text-muted mb-3 d-block"></i>
+    <h5 class="text-muted">No analyses yet</h5>
+    <p class="text-muted mb-4">Upload your first image to get started.</p>
+    <a href="{{ url_for('patient.upload') }}" class="btn btn-primary mx-auto" style="width:fit-content">
+      <i class="bi bi-upload me-2"></i>Upload Image
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

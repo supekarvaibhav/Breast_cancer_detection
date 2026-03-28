@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Image Database – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold bg-primary" style="font-size:.8rem; letter-spacing:.06em;">DATASET</span>
+    <h1 class="fw-bold display-5 mb-3">Image <span class="text-primary">Database</span></h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      CANCERAI is trained on the BreakHis dataset — one of the most widely used benchmark datasets for breast cancer histopathology image classification.
+    </p>
+  </div>
+
+  <!-- BreakHis Overview -->
+  <div class="row g-5 mb-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-3"><i class="bi bi-database text-primary me-2"></i>BreakHis v1 Dataset</h3>
+          <p class="text-muted">
+            The <strong>Breast Cancer Histopathological Image Classification</strong> (BreakHis) dataset was collected from 82 patients at the P&D Laboratory, Brazil.
+            It contains 7,909 microscopic images of breast tumor tissue stained with Hematoxylin and Eosin (H&E) at four magnification factors.
+          </p>
+
+          <div class="row g-3 mt-3">
+            {% for val, label, color in [('7,909', 'Total Images', 'primary'), ('82', 'Patients', 'info'), ('4', 'Magnifications', 'warning'), ('8', 'Tumor Subtypes', 'success')] %}
+            <div class="col-6 col-md-3">
+              <div class="text-center p-3 rounded-3 bg-{{ color }} bg-opacity-10">
+                <div class="fw-bold fs-4 text-{{ color }}">{{ val }}</div>
+                <div class="text-muted small">{{ label }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Magnification Levels -->
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <h3 class="fw-bold text-center mb-4">Magnification Levels</h3>
+    </div>
+    {% for mag, count, desc in [
+      ('40X', '1,995', 'Low magnification — shows overall tissue architecture and tumor boundaries'),
+      ('100X', '2,081', 'Medium-low — reveals cell clusters and structural patterns'),
+      ('200X', '2,013', 'Medium-high — individual cell morphology becomes visible'),
+      ('400X', '1,820', 'High magnification — detailed nuclear features for precise classification')
+    ] %}
+    <div class="col-md-6 col-lg-3">
+      <div class="card border-0 shadow-sm h-100 rounded-4 card-hover">
+        <div class="card-body p-4 text-center">
+          <div class="fw-bold fs-2 text-primary mb-2">{{ mag }}</div>
+          <div class="badge bg-info mb-3">{{ count }} images</div>
+          <p class="text-muted small mb-0">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Classes Breakdown -->
+  <div class="row g-4 mb-5">
+    <div class="col-lg-10 mx-auto">
+      <h3 class="fw-bold text-center mb-4">Dataset Classes</h3>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-success text-white py-3 rounded-top-4">
+              <h5 class="mb-0"><i class="bi bi-shield-check me-2"></i>Benign — 2,480 images</h5>
+            </div>
+            <div class="card-body p-4">
+              <table class="table table-sm table-hover mb-0">
+                <thead><tr><th>Subtype</th><th>Code</th><th>Images</th></tr></thead>
+                <tbody>
+                  {% for name, code, count in [('Adenosis','A','444'), ('Fibroadenoma','F','1,014'), ('Phyllodes Tumor','PT','453'), ('Tubular Adenoma','TA','569')] %}
+                  <tr><td>{{ name }}</td><td><span class="badge bg-success">{{ code }}</span></td><td>{{ count }}</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-danger text-white py-3 rounded-top-4">
+              <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Malignant — 5,429 images</h5>
+            </div>
+            <div class="card-body p-4">
+              <table class="table table-sm table-hover mb-0">
+                <thead><tr><th>Subtype</th><th>Code</th><th>Images</th></tr></thead>
+                <tbody>
+                  {% for name, code, count in [('Ductal Carcinoma','DC','3,451'), ('Lobular Carcinoma','LC','626'), ('Mucinous Carcinoma','MC','792'), ('Papillary Carcinoma','PC','560')] %}
+                  <tr><td>{{ name }}</td><td><span class="badge bg-danger">{{ code }}</span></td><td>{{ count }}</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Source -->
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 text-center">
+          <h5 class="fw-bold mb-3"><i class="bi bi-link-45deg text-primary me-2"></i>Dataset Source</h5>
+          <p class="text-muted small mb-3">
+            The BreakHis dataset is publicly available for research purposes from the Federal University of Paraná (UFPR), Brazil.
+          </p>
+          <a href="https://web.inf.ufpr.br/vri/databases/breast-cancer-histopathological-database-breakhis/" target="_blank" class="btn btn-outline-primary">
+            <i class="bi bi-box-arrow-up-right me-2"></i>Visit BreakHis Official Page
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

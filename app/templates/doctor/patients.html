@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Patient Records – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="fw-bold mb-4"><i class="bi bi-people text-success me-2"></i>Treated Patients</h2>
+  {% if consultations %}
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th class="ps-4">Patient</th>
+            <th>Diagnosis</th>
+            <th>Confidence</th>
+            <th>Consultation Date</th>
+            <th>Duration</th>
+            <th class="pe-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in consultations %}
+          <tr>
+            <td class="ps-4">
+              <div class="fw-semibold">{{ c.patient.user.full_name }}</div>
+              <div class="small text-muted">{{ c.patient.user.email }}</div>
+            </td>
+            <td>
+              {% if c.diagnosis %}
+              <span class="badge bg-{{ 'danger' if c.diagnosis.is_malignant else 'success' }}">
+                {{ c.diagnosis.prediction }}
+              </span>
+              {% else %}—{% endif %}
+            </td>
+            <td>{{ c.diagnosis.confidence if c.diagnosis else '—' }}%</td>
+            <td class="small">{{ c.ended_at.strftime('%b %d, %Y') if c.ended_at else '—' }}</td>
+            <td class="small">{{ c.duration_minutes() }} min</td>
+            <td class="pe-4">
+              {% if c.diagnosis %}
+              <a href="{{ url_for('doctor.view_diagnosis', diag_id=c.diagnosis_id) }}"
+                 class="btn btn-sm btn-outline-info fw-semibold">
+                <i class="bi bi-eye me-1"></i>View
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="card border-0 shadow-sm text-center p-5 rounded-4">
+    <i class="bi bi-inbox display-4 text-muted mb-3 d-block"></i>
+    <h5 class="text-muted">No completed consultations yet</h5>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

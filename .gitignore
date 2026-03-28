@@ -1,0 +1,44 @@
+# Virtual environment
+venv/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Database
+*.db
+*.sqlite3
+
+# Uploaded images (user data)
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Model files (large binaries - re-generate via train.py)
+app/ml/saved_models/*.keras
+app/ml/saved_models/*.joblib
+app/ml/saved_models/*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Distribution / build
+dist/
+build/
+*.egg-info/

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}Project – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold" style="background:linear-gradient(135deg,#3b5bdb,#e91e8c); font-size:.8rem; letter-spacing:.06em;">PROJECT</span>
+
+    <!-- ============================================================
+         EDIT THIS SECTION: Change the H1 heading and description below
+         ============================================================ -->
+    <h1 class="fw-bold display-5 mb-3">CANCERAI — AI-Powered Cancer Detection Platform</h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      A research-grade web application for breast cancer detection using a CNN+SVM hybrid deep learning model,
+      trained on the BreakHis histopathology dataset, with integrated real-time doctor consultation.
+    </p>
+    <!-- ============================================================
+         END EDITABLE H1 SECTION
+         ============================================================ -->
+  </div>
+
+  <div class="row g-5">
+    <div class="col-lg-8 mx-auto">
+
+      <!-- ============================================================
+           EDIT THIS SECTION: Add or modify project description text below
+           ============================================================ -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-3"><i class="bi bi-file-earmark-text text-primary me-2"></i>Project Overview</h3>
+          <p class="text-muted">
+            CANCERAI is a comprehensive web platform designed to assist in the early detection of breast cancer
+            using artificial intelligence. The system combines state-of-the-art deep learning techniques with
+            classical machine learning to provide accurate and rapid analysis of histopathology images.
+          </p>
+          <p class="text-muted">
+            The platform serves two primary user roles: <strong>Patients</strong> who can upload histopathology
+            images for AI analysis, and <strong>Doctors</strong> who can review AI-generated diagnoses, provide
+            clinical assessments, and communicate with patients in real-time through an integrated chat system.
+          </p>
+          <p class="text-muted">
+            This project was developed as part of an academic initiative to demonstrate the practical application
+            of AI in healthcare, with a focus on improving access to early cancer screening in underserved communities.
+          </p>
+        </div>
+      </div>
+      <!-- ============================================================
+           END EDITABLE PROJECT DESCRIPTION
+           ============================================================ -->
+
+      <!-- Key Features -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4"><i class="bi bi-star text-warning me-2"></i>Key Features</h3>
+          <div class="row g-3">
+            {% for icon, title, desc in [
+              ('bi-cpu', 'CNN+SVM Hybrid AI', 'EfficientNetB0 feature extraction combined with RBF-kernel SVM for binary classification'),
+              ('bi-upload', 'Image Upload & Analysis', 'Upload histopathology images and receive instant AI-powered Benign/Malignant classification'),
+              ('bi-chat-dots', 'Real-Time Consultation', 'Integrated doctor-patient chat powered by WebSocket for instant communication'),
+              ('bi-file-earmark-pdf', 'PDF Reports', 'Generate detailed diagnostic reports with confidence scores and recommendations'),
+              ('bi-shield-check', 'Role-Based Access', 'Separate dashboards for patients and doctors with secure authentication'),
+              ('bi-speedometer2', 'Fast Analysis', 'Results in under 3 seconds with confidence scores and risk level assessment')
+            ] %}
+            <div class="col-md-6">
+              <div class="d-flex gap-3 align-items-start">
+                <div class="flex-shrink-0">
+                  <div class="rounded-circle bg-primary bg-opacity-10 p-2">
+                    <i class="bi {{ icon }} text-primary"></i>
+                  </div>
+                </div>
+                <div>
+                  <h6 class="fw-semibold mb-1 small">{{ title }}</h6>
+                  <p class="text-muted mb-0" style="font-size:.8rem;">{{ desc }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="card border-0 shadow-sm rounded-4 bg-dark text-white mb-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4"><i class="bi bi-code-slash text-warning me-2"></i>Technology Stack</h3>
+          <div class="row g-3">
+            {% for category, items in [
+              ('Backend', ['Python 3.10+', 'Flask', 'SQLAlchemy', 'Flask-SocketIO']),
+              ('AI/ML', ['TensorFlow / Keras', 'EfficientNetB0', 'scikit-learn (SVM)', 'NumPy / OpenCV']),
+              ('Frontend', ['HTML5 / CSS3', 'Bootstrap 5', 'JavaScript', 'Jinja2 Templates']),
+              ('Database', ['SQLite', 'Flask-Migrate', 'Flask-Login', 'Eventlet'])
+            ] %}
+            <div class="col-md-6">
+              <h6 class="text-warning fw-semibold mb-2">{{ category }}</h6>
+              <div class="d-flex flex-wrap gap-2">
+                {% for item in items %}
+                <span class="badge bg-light bg-opacity-10 border border-secondary px-3 py-2">{{ item }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           EDIT THIS SECTION: Add any additional text, acknowledgements,
+           or project details you want below this line
+           ============================================================ -->
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-3"><i class="bi bi-pencil-square text-info me-2"></i>Additional Notes</h3>
+          <p class="text-muted">
+            Add your own project notes, acknowledgements, references, or any additional information here.
+            You can edit this file at: <code>app/templates/project.html</code>
+          </p>
+        </div>
+      </div>
+      <!-- ============================================================
+           END EDITABLE ADDITIONAL NOTES SECTION
+           ============================================================ -->
+
+    </div>
+  </div>
+</div>
+{% endblock %}

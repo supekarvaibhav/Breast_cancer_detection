@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% block title %}About – CANCERAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold display-5 mb-3">About <span class="text-primary">CANCER</span><span class="text-warning">AI</span></h1>
+    <p class="lead text-muted mx-auto" style="max-width:700px;">
+      A research-grade AI platform for early breast cancer detection using a CNN+SVM hybrid model
+      trained on the BreakHis histopathology dataset, combined with a real-time doctor consultation system.
+    </p>
+  </div>
+
+  <!-- Mission -->
+  <div class="row g-4 mb-5 align-items-center">
+    <div class="col-md-6">
+      <h3 class="fw-bold mb-3"><i class="bi bi-bullseye text-danger me-2"></i>Our Mission</h3>
+      <p class="text-muted">Breast cancer is the most common cancer in women worldwide. Early detection can
+      increase the 5-year survival rate to over 99%. CANCERAI aims to democratize access to early
+      detection by providing an AI-powered screening tool available to both patients and clinicians.</p>
+      <ul class="list-unstyled">
+        {% for item in ['Awareness tool for patients', 'Decision-support system for doctors',
+                        'Early detection at scale', 'Bridging patients and specialists instantly'] %}
+        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-0 shadow-lg rounded-4 p-4 bg-primary text-white">
+        <h4 class="fw-bold mb-4"><i class="bi bi-bar-chart me-2"></i>AI Model Performance</h4>
+        <div class="row g-3">
+          {% for label, val in [('Target Accuracy','≥ 90%'),('AUC Score','≥ 0.95'),
+                                ('F1-Score','≥ 0.90'),('Dataset','BreakHis v1')] %}
+          <div class="col-6">
+            <div class="bg-white bg-opacity-15 rounded-3 p-3 text-center">
+              <div class="fs-4 fw-bold text-warning">{{ val }}</div>
+              <div class="small opacity-90">{{ label }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dataset Info -->
+  <div class="card border-0 shadow-sm rounded-4 mb-5">
+    <div class="card-body p-4 p-md-5">
+      <h3 class="fw-bold mb-4"><i class="bi bi-database text-primary me-2"></i>BreakHis Dataset</h3>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <h5 class="fw-semibold mb-3 text-success"><i class="bi bi-shield-check me-2"></i>Benign Classes</h5>
+          {% for c, d in [('Adenosis (A)','Benign epithelial lesion'),
+                          ('Fibroadenoma (FA)','Most common benign tumor'),
+                          ('Phyllodes Tumor (PT)','Rare fibroepithelial lesion'),
+                          ('Tubular Adenoma (TA)','Well-differentiated tubular structures')] %}
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="badge bg-success px-3 py-2">{{ c }}</span>
+            <small class="text-muted">{{ d }}</small>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <h5 class="fw-semibold mb-3 text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Malignant Classes</h5>
+          {% for c, d in [('Ductal Carcinoma (DC)','Most common breast cancer type'),
+                          ('Lobular Carcinoma (LC)','Originates in milk-producing glands'),
+                          ('Mucinous Carcinoma (MC)','Rare type with mucin-producing cells'),
+                          ('Papillary Carcinoma (PC)','Finger-like projections pattern')] %}
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="badge bg-danger px-3 py-2">{{ c }}</span>
+            <small class="text-muted">{{ d }}</small>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Architecture -->
+  <div class="card border-0 shadow-sm rounded-4 bg-dark text-white mb-5">
+    <div class="card-body p-4 p-md-5">
+      <h3 class="fw-bold mb-4"><i class="bi bi-cpu text-warning me-2"></i>Hybrid CNN+SVM Architecture</h3>
+      <div class="row g-4 align-items-center">
+        <div class="col-md-7">
+          <div class="pipeline-container">
+            {% for step, color, desc in [
+              ('INPUT', 'info', 'Histopathology Image (224×224 RGB, H&E stained)'),
+              ('PREPROCESSING', 'secondary', 'Resize, Normalize [0,1], Data Augmentation'),
+              ('EfficientNetB0', 'primary', 'Frozen base → fine-tuned top 30 layers'),
+              ('GAP + Dense(512)', 'warning text-dark', 'GlobalAveragePooling2D + BatchNorm + Dropout(0.4)'),
+              ('Feature Vector', 'info', '256-dimensional deep feature representation'),
+              ('SVM (RBF)', 'success', 'C=10, γ=scale, balanced class weights'),
+              ('OUTPUT', 'danger', 'Benign | Malignant + Probability Score')
+            ] %}
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="badge bg-{{ color }} px-3 py-2" style="min-width:150px;text-align:center;">{{ step }}</span>
+              <small class="text-muted">{{ desc }}</small>
+            </div>
+            {% if not loop.last %}<div class="text-center text-warning ms-4 mb-1">↓</div>{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-md-5">
+          <h5 class="fw-semibold mb-3 text-warning">Why CNN + SVM?</h5>
+          <ul class="list-unstyled">
+            {% for reason in ['CNN extracts rich spatial features from tissue','SVM generalizes better with limited data',
+                               'Hybrid achieves higher accuracy than CNN alone',
+                               'SVM provides calibrated probability scores',
+                               'Proven on BreakHis benchmark datasets'] %}
+            <li class="mb-2 small"><i class="bi bi-arrow-right-circle text-success me-2"></i>{{ reason }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mb-5">
+    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg fw-semibold px-5 me-3">
+      <i class="bi bi-person-plus me-2"></i>Get Started
+    </a>
+    <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-lg px-5">
+      <i class="bi bi-house me-2"></i>Home
+    </a>
+  </div>
+
+  <!-- ── DEVELOPER TEAM ──────────────────────────────────────────── -->
+  <div class="text-center mb-5">
+    <span class="badge rounded-pill px-4 py-2 mb-3 fw-semibold" style="background:linear-gradient(135deg,#3b5bdb,#e91e8c); font-size:.8rem; letter-spacing:.06em;">OUR TEAM</span>
+    <h2 class="fw-bold mb-2">Meet the Developers</h2>
+    <p class="text-muted">The passionate minds behind CANCERAI — combining medical knowledge and cutting-edge AI.</p>
+  </div>
+
+  <div class="row g-4 mb-5">
+    {% set developers = [
+      (
+        'Vaibhav Supekar',
+        'Lead Developer & AI Engineer',
+        'V',
+        '#3b5bdb',
+        'Built the CNN+SVM hybrid deep-learning pipeline, Flask backend, and full-stack architecture. Passionate about applying AI to solve real-world medical challenges.',
+        [
+          ('bi-github',       '#24292e', 'https://github.com/supekarvaibhav'),
+          ('bi-linkedin',     '#0a66c2', 'https://www.linkedin.com/in/vaibhav-supekar-14bb602b4/'),
+          ('bi-envelope-fill','#ea4335', 'mailto:vaibhavsupekar12@gmail.com'),
+          ('bi-instagram',    '#e1306c', 'https://instagram.com/supekar__vaibhav')
+        ],
+        ['Python', 'TensorFlow', 'Flask', 'SQLAlchemy']
+      ),
+      (
+        'Harsh Sakhare',
+        'ML Researcher & Data Scientist',
+        'H',
+        '#e91e8c',
+        'Led the BreakHis dataset preprocessing, model training experiments, and performance benchmarking. Specialises in medical image analysis and computer vision.',
+        [
+          ('bi-github',       '#24292e', 'https://github.com/harshsakhare33'),
+          ('bi-linkedin',     '#0a66c2', 'https://linkedin.com/in/harshsakhare'),
+          ('bi-envelope-fill','#ea4335', 'mailto:harshsakhare33@gmail.com'),
+          ('bi-instagram',    '#e1306c', 'https://instagram.com/harshsakhare')
+        ],
+        ['Scikit-learn', 'NumPy', 'Pandas', 'Seaborn']
+      ),
+      (
+        'Aman Shaikh',
+        'Frontend Developer & UI/UX',
+        'A',
+        '#9c27b0',
+        'Designed and implemented the entire user interface including the patient portal, doctor dashboard, real-time chat, and PDF report generation features.',
+        [
+          ('bi-github',       '#24292e', 'https://github.com/amans717'),
+          ('bi-linkedin',     '#0a66c2', 'https://www.linkedin.com/in/aman-shaikh-09840925b/'),
+          ('bi-envelope-fill','#ea4335', 'mailto:amanshaikh.sae.comp@gmail.com'),
+          ('bi-instagram',    '#e1306c', 'https://instagram.com/amanshaikh')
+        ],
+        ['HTML/CSS', 'Bootstrap 5', 'JavaScript', 'Jinja2']
+      ),
+      (
+        'Miss Sinare',
+        'Medical Advisor & Oncology Expert',
+        'S',
+        '#00897b',
+        'Provided medical expertise in breast cancer pathology, validated the AI model outputs against clinical standards, and reviewed the awareness content for accuracy.',
+        [
+          ('bi-github',       '#24292e', 'https://github.com/sinarebhakti-web'),
+          ('bi-linkedin',     '#0a66c2', 'https://www.linkedin.com/in/bhakti-sinare-46219937b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'),
+          ('bi-envelope-fill','#ea4335', 'sinarebhakti@gmail.com'),
+          ('bi-instagram',    '#e1306c', 'https://instagram.com/misssinare')
+        ],
+        ['Oncology', 'Histopathology', 'Clinical Research', 'BreakHis']
+      )
+    ] %}
+
+    {% for name, role, initial, color, bio, socials, skills in developers %}
+    <div class="col-md-6 col-lg-3">
+      <div class="dev-card h-100">
+        <!-- Avatar -->
+        <div class="dev-avatar mx-auto mb-3" style="background: linear-gradient(135deg, {{ color }}, {{ color }}aa);">{{ initial }}</div>
+        <h5 class="fw-bold mb-1 text-center">{{ name }}</h5>
+        <p class="text-center mb-2" style="color:{{ color }}; font-size:.85rem; font-weight:600;">{{ role }}</p>
+        <p class="text-muted small text-center mb-3">{{ bio }}</p>
+        <!-- Skills -->
+        <div class="d-flex flex-wrap gap-1 justify-content-center mb-3">
+          {% for skill in skills %}
+          <span class="badge rounded-pill" style="background:{{ color }}18; color:{{ color }}; border:1px solid {{ color }}44;">{{ skill }}</span>
+          {% endfor %}
+        </div>
+        <!-- Social links -->
+        <div class="d-flex gap-2 justify-content-center mt-auto">
+          {% for icon, sc, href in socials %}
+          <a href="{{ href }}" target="_blank" class="dev-social-btn" style="--sc:{{ sc }};" title="{{ icon }}">
+            <i class="bi {{ icon }}"></i>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ── WEBSITE SOCIAL MEDIA ────────────────────────────────────── -->
+  <div class="card border-0 shadow-sm rounded-4 mb-5" style="background: linear-gradient(135deg, #1a1b9e08, #e91e8c08); border: 1px solid #e91e8c22 !important;">
+    <div class="card-body p-4 p-md-5 text-center">
+      <h3 class="fw-bold mb-2">Connect With Us</h3>
+      <p class="text-muted mb-4">Stay updated with the latest news, research, and breast cancer awareness campaigns.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        {% set socials_web = [
+          ('bi-facebook',   '#1877f2', 'Facebook',  'https://facebook.com/CANCERAI',            'Like our page for updates'),
+          ('bi-twitter-x',  '#000',    'Twitter/X', 'https://twitter.com/CANCERAI',             'Follow us for daily tips'),
+          ('bi-instagram',  '#e1306c', 'Instagram', 'https://www.instagram.com/supekar__vaibhav',         'Visual stories & awareness'),
+          ('bi-linkedin',   '#0a66c2', 'LinkedIn',  'https://linkedin.com/company/cancerai',   'Professional network'),
+          ('bi-youtube',    '#ff0000', 'YouTube',   'https://youtube.com/@CANCERAI',            'Video guides & demos'),
+          ('bi-github',     '#333',    'GitHub',    'https://github.com/CANCERAI',              'Open source code')
+        ] %}
+        {% for icon, color, label, url, desc in socials_web %}
+        <a href="{{ url }}" target="_blank" class="social-platform-card text-decoration-none">
+          <div class="social-platform-icon mb-2" style="background:{{ color }}18; color:{{ color }};">
+            <i class="bi {{ icon }} fs-3"></i>
+          </div>
+          <div class="fw-semibold" style="color:{{ color }}; font-size:.9rem;">{{ label }}</div>
+          <div class="text-muted" style="font-size:.75rem;">{{ desc }}</div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
