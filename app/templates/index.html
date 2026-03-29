@@ -8,7 +8,7 @@
     <div class="row align-items-center g-5">
       <div class="col-lg-6">
         <span class="badge badge-accent mb-3 px-3 py-2 fs-6">
-          <i class="bi bi-stars me-1"></i>CNN + SVM Hybrid AI
+          <i class="bi bi-stars me-1"></i>Doctor-First AI Support
         </span>
         <h1 class="display-4 fw-bold lh-sm mb-4">
           DIAGNOSE CANCER<br>FASTER. MORE<br>ACCURATELY.<br>
@@ -35,14 +35,14 @@
           </div>
           <div class="col-4 text-center">
             <div class="stat-card py-3 px-2 rounded-3">
-              <div class="fs-3 fw-bold">7,909</div>
-              <div class="small">BreakHis Images</div>
+              <div class="fs-3 fw-bold">24/7</div>
+              <div class="small">Doctor Support</div>
             </div>
           </div>
           <div class="col-4 text-center">
             <div class="stat-card py-3 px-2 rounded-3">
-              <div class="fs-3 fw-bold">4x</div>
-              <div class="small">Magnifications</div>
+              <div class="fs-3 fw-bold">&lt;3s</div>
+              <div class="small">AI Response</div>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
       {% set steps = [
         ('1', 'bi-person-plus', 'Register', 'Create your patient or doctor account in seconds.', 'accent-blue'),
         ('2', 'bi-cloud-upload',  'Upload Image', 'Upload your histopathology slide image (PNG/JPG/TIF).', 'accent-cyan'),
-        ('3', 'bi-cpu',           'AI Analysis', 'Our CNN+SVM model analyses the image instantly.', 'accent-amber'),
+        ('3', 'bi-cpu',           'AI Analysis', 'Our AI engine analyses the image instantly.', 'accent-amber'),
         ('4', 'bi-chat-dots',     'Consult Doctor', 'If malignant, consult a specialist directly on the platform.', 'accent-green')
       ] %}
       {% for num, icon, title, desc, accent in steps %}
@@ -97,8 +97,8 @@
 <!-- ── ROLES ─────────────────────────────────────────────────────── -->
 <section class="py-5">
   <div class="container">
-    <h2 class="text-center fw-bold mb-2">Built For Everyone</h2>
-    <p class="text-center mb-5" style="color: var(--text-muted);">Whether you're a patient seeking answers or a doctor providing care</p>
+    <h2 class="text-center fw-bold mb-2">Built for Clinical Teams</h2>
+    <p class="text-center mb-5" style="color: var(--text-muted);">Primarily created for doctors as a decision-support platform, while patients can securely access care.</p>
     <div class="row g-4">
       <!-- Patient Card -->
       <div class="col-md-6">
@@ -130,7 +130,7 @@
           </div>
           <div class="card-body p-4">
             <ul class="list-unstyled mb-4">
-              {% for item in ['Review AI-generated diagnoses', 'AI as decision-support tool',
+              {% for item in ['Primary focus: doctor-led clinical decision support', 'Review AI-generated diagnoses', 'AI as decision-support tool',
                               'Manage patient consultations', 'Real-time chat with patients',
                               'Add clinical notes to diagnoses',
                               'Toggle availability for consultations'] %}
@@ -154,22 +154,22 @@
     <div class="row align-items-center g-5">
       <div class="col-md-6">
         <h3 class="fw-bold mb-3" style="color: #fff;">The Science Behind CANCERAI</h3>
-        <p style="color: rgba(255,255,255,.6);">Our hybrid architecture combines deep learning feature extraction with classical machine learning classification:</p>
+        <p style="color: rgba(255,255,255,.6);">A streamlined AI workflow designed to support doctors with fast and consistent triage insights:</p>
         <div class="model-pipeline mt-4">
           <div class="pipeline-step"><span class="badge me-2" style="background: var(--info);">INPUT</span>Histopathology Image (224×224 RGB)</div>
           <div class="pipeline-arrow">↓</div>
-          <div class="pipeline-step"><span class="badge me-2" style="background: var(--accent);">CNN</span>EfficientNetB0 Feature Extractor (256-D vector)</div>
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--accent);">PROCESS</span>Image quality checks and feature analysis</div>
           <div class="pipeline-arrow">↓</div>
-          <div class="pipeline-step"><span class="badge me-2" style="background: var(--warning); color: #1a1a1a;">SVM</span>RBF Kernel SVM Classifier</div>
+          <div class="pipeline-step"><span class="badge me-2" style="background: var(--warning); color: #1a1a1a;">REVIEW</span>Risk scoring for doctor evaluation</div>
           <div class="pipeline-arrow">↓</div>
           <div class="pipeline-step"><span class="badge me-2" style="background: var(--success);">OUTPUT</span>Benign / Malignant + Confidence Score</div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="row g-3">
-          {% for label, val, color in [('Dataset', 'BreakHis v1', 'var(--info)'), ('Magnifications', '40x · 100x · 200x · 400x', 'var(--warning)'),
-             ('Architecture', 'EfficientNetB0 + SVM (RBF)', 'var(--accent)'), ('Target Accuracy', '≥ 90%', 'var(--success)'),
-             ('Classes', 'Benign (4) · Malignant (4)', 'var(--danger)'), ('Training', 'Phase 1: Frozen base + Phase 2: Fine-tune', '#94a3b8')] %}
+          {% for label, val, color in [('Primary Users', 'Doctors & Clinical Teams', 'var(--success)'), ('Workflow', 'Upload -> AI triage -> Doctor review', 'var(--warning)'),
+             ('Decision Support', 'Benign / Malignant risk guidance', 'var(--accent)'), ('Target Accuracy', '≥ 90%', 'var(--info)'),
+             ('Turnaround', 'Results in under 3 seconds', 'var(--danger)'), ('Consultation', 'Integrated real-time doctor chat', '#94a3b8')] %}
           <div class="col-6">
             <div class="tech-card p-3 rounded-3 text-center">
               <div class="fw-bold mb-1" style="color: {{ color }};">{{ label }}</div>
