@@ -1,20 +1,31 @@
-# BreastGuard AI – Complete Project Explanation
+# CANCERAI – Complete Project Explanation
 ## Breast Cancer Detection Using CNN + SVM Hybrid Model
 
 ---
 
 ## 1. PROJECT OVERVIEW
 
-BreastGuard AI is a full-stack web application for early breast cancer detection. It uses a
-hybrid deep learning approach combining a Convolutional Neural Network (CNN) with a Support
-Vector Machine (SVM) classifier to analyze histopathology slide images and classify them as
-either **Benign** (non-cancerous) or **Malignant** (cancerous).
+CANCERAI is a full-stack web platform for early breast cancer detection and doctor-led
+clinical decision support. It uses a hybrid deep learning approach combining a
+Convolutional Neural Network (CNN) with a Support Vector Machine (SVM) classifier to analyze
+histopathology slide images and classify them as either **Benign** (non-cancerous) or
+**Malignant** (cancerous).
 
 The platform also provides:
 - Role-based user system (Patient and Doctor)
 - Real-time chat between patients and doctors via WebSockets
 - Diagnosis history tracking
 - Doctor consultation management
+- Public information pages (awareness, educational content, blog, and project pages)
+
+### 1.1 Recent Updates (homepage-copy-update)
+
+The following updates are now reflected in the current branch:
+- Homepage messaging shifted from model-first wording to **doctor-first clinical support**
+- Hero section KPIs now highlight operational outcomes: **>=90% Accuracy**, **24/7 Doctor Support**, and **<3s AI Response**
+- Clinical positioning strengthened in the role and science sections (doctor-led decision support + triage workflow)
+- Footer copy updated to emphasize a **Doctor-Centered Clinical Support Platform**
+- Application runtime updated in `run.py` to use `port=5001` and `use_reloader=False`
 
 ---
 
@@ -256,7 +267,7 @@ breast_cancer_detection/
 ### 5.1 run.py (Entry Point)
 - Creates the Flask app using the factory pattern
 - Initializes the database tables on startup (db.create_all)
-- Runs the app with SocketIO support on host 0.0.0.0, port 5000
+- Runs the app with SocketIO support on host 0.0.0.0, port 5001 (reloader disabled)
 - Provides a shell context for debugging (access models in Flask shell)
 - Provides a CLI command `flask init-db` to initialize the database
 
@@ -547,7 +558,7 @@ python run.py
 ```
 
 ### Step 5: Access the Application
-Open browser → http://localhost:5000
+Open browser → http://localhost:5001
 
 ### Step 6: Train Real Model (Optional — requires BreakHis dataset)
 ```bash
@@ -558,13 +569,13 @@ python train.py --dataset /path/to/BreaKHis_v1 --magnification ALL --epochs 30
 
 ## 11. SUMMARY
 
-BreastGuard AI combines modern deep learning (EfficientNetB0 CNN) with classical machine
-learning (SVM) to create a powerful breast cancer detection tool. The Flask web application
-provides an intuitive interface for patients to upload histopathology images and receive
-instant AI-powered analysis, while enabling doctors to review results and provide real-time
-consultations via WebSocket chat. The hybrid CNN+SVM approach is designed to achieve ≥90%
-accuracy on the BreakHis dataset, making it a valuable decision-support tool for early
-cancer detection.
+CANCERAI combines modern deep learning (EfficientNetB0 CNN) with classical machine learning
+(SVM) to create a practical breast cancer detection and triage support platform. The Flask
+web application provides an intuitive interface for patients to upload histopathology images
+and receive instant AI-powered analysis, while enabling doctors to review results, provide
+clinical notes, and consult in real time via WebSocket chat. The hybrid CNN+SVM approach is
+designed to achieve >=90% accuracy on the BreakHis dataset, making it a valuable
+decision-support tool for early cancer detection.
 
 ---
 
