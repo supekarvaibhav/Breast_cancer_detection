@@ -26,4 +26,6 @@ def init_db():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    socketio.run(app, debug=True, use_reloader=False, host='0.0.0.0', port=5001)
+    port = int(os.environ.get('PORT', 5001))
+    is_debug = os.environ.get('FLASK_ENV', 'development') == 'development'
+    socketio.run(app, debug=is_debug, use_reloader=False, host='0.0.0.0', port=port)
