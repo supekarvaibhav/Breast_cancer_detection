@@ -3,13 +3,21 @@ from datetime import timedelta
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+
+def _normalize_database_url(url: str | None) -> str | None:
+    if not url:
+        return None
+    if url.startswith('postgres://'):
+        return url.replace('postgres://', 'postgresql://', 1)
+    return url
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'bc-detect-secret-key-2026-change-in-prod'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL')) or \
         'sqlite:///' + os.path.join(BASE_DIR, 'breast_cancer.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'app', 'static', 'uploads')
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or os.path.join(BASE_DIR, 'app', 'static', 'uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'tif', 'tiff', 'bmp'}
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
 

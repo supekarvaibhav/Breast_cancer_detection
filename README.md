@@ -104,7 +104,26 @@ This will:
 python run.py
 ```
 
-Visit `http://localhost:5000`
+The first startup can take 20-60 seconds while TensorFlow and the saved model load.
+
+Visit `http://localhost:5001`
+
+---
+
+## Deploy on Render
+
+This repository includes a Render blueprint in `render.yaml`.
+
+1. Push the code to GitHub.
+2. In Render, choose New + Blueprint and point it at the repository.
+3. Render will create the web service and PostgreSQL database from the blueprint.
+4. After the first deploy, verify the environment variables `SECRET_KEY`, `DATABASE_URL`, and `FLASK_ENV=production` are present.
+
+If you deploy the app without the blueprint, use this start command:
+
+```bash
+gunicorn --worker-class eventlet --workers 1 --bind 0.0.0.0:$PORT run:app
+```
 
 ---
 

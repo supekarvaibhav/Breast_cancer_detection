@@ -32,6 +32,7 @@ echo.
 echo   To start the web server:
 echo   python run.py
 echo.
-echo   Then open: http://localhost:5000
+echo   First startup may take 20-60 seconds while model files load.
+echo   Then open: http://localhost:5001
 echo ============================================================
 pause

@@ -94,6 +94,11 @@ section.py-5:not(.bg-dark):not(.hero-section):not(.footer-dark):not(.bg-gradient
   color: var(--text-white) !important;
 }
 
+/* Shared gradient utility used in headers (login/chat) */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #005a99 100%) !important;
+}
+
 /* ══════════════════════════════════════════════════════════════════════
    NAVBAR — Clean white with dark text
    ══════════════════════════════════════════════════════════════════════ */
