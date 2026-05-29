@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.pool import NullPool
@@ -7,7 +9,7 @@ from flask_migrate import Migrate
 from config import config
 
 db       = SQLAlchemy(engine_options={
-    # Avoid eventlet/threading lock issues under Gunicorn by disabling pooling.
+    # Avoid async worker lock issues under Gunicorn by disabling pooling.
     'poolclass': NullPool,
     'pool_pre_ping': True,
 })
@@ -29,7 +31,11 @@ def create_app(config_name: str = 'default') -> Flask:
     # Extensions
     db.init_app(app)
     login_manager.init_app(app)
-    socketio.init_app(app, cors_allowed_origins='*', async_mode='eventlet')
+    socketio.init_app(
+        app,
+        cors_allowed_origins='*',
+        async_mode=os.getenv('SOCKETIO_ASYNC_MODE', 'threading'),
+    )
     migrate.init_app(app, db)
 
     login_manager.login_view   = 'auth.login'
@@ -49,7 +55,6 @@ def create_app(config_name: str = 'default') -> Flask:
     app.register_blueprint(chat_bp,     url_prefix='/chat')
 
     # Ensure upload folder exists
-    import os
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     os.makedirs(app.config['MODEL_PATH'],    exist_ok=True)
 

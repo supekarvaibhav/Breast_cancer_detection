@@ -130,7 +130,7 @@ This repository includes a Render blueprint in `render.yaml`.
 If you deploy the app without the blueprint, use this start command:
 
 ```bash
-gunicorn --worker-class eventlet --workers 1 --bind 0.0.0.0:$PORT run:app
+gunicorn --worker-class gthread --workers 1 --threads 4 --bind 0.0.0.0:$PORT run:app
 ```
 
 ---

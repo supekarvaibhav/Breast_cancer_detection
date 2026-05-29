@@ -44,7 +44,7 @@ The following updates are now reflected in the current branch:
 | **Flask-Mail** | 0.10.0 | Email notification support |
 | **Flask-WTF** | 1.2.1 | Form handling and CSRF protection |
 | **Werkzeug** | 3.0.3 | WSGI utilities (password hashing, file handling) |
-| **Eventlet** | 0.37.0 | Async networking library for SocketIO |
+| **Gunicorn (gthread)** | 22.0.0 | WSGI server with threaded workers |
 
 ### 2.2 Machine Learning & AI
 

@@ -3,7 +3,7 @@ services:
     name: breast-cancer-detection
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class eventlet --workers 1 --bind 0.0.0.0:$PORT run:app
+    startCommand: gunicorn --worker-class gthread --workers 1 --threads 4 --bind 0.0.0.0:$PORT run:app
     autoDeploy: true
     plan: starter
     envVars:

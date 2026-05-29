@@ -22,7 +22,6 @@ seaborn==0.13.2
 pandas==2.2.3
 tqdm==4.66.5
 python-socketio==5.11.4
-eventlet==0.37.0
 python-dotenv==1.0.1
 imbalanced-learn==0.12.3
 gunicorn==22.0.0
