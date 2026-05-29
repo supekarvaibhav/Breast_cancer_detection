@@ -1,4 +1,9 @@
 """Entry point for the Breast Cancer Detection Flask Application."""
+import eventlet
+
+# Ensure eventlet patches are applied before importing Flask app modules.
+eventlet.monkey_patch()
+
 import os
 from app import create_app, db, socketio
 
