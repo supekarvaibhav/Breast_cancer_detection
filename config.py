@@ -13,8 +13,7 @@ def _normalize_database_url(url: str | None) -> str | None:
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'bc-detect-secret-key-2026-change-in-prod'
-    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL')) or \
-        'sqlite:///' + os.path.join(BASE_DIR, 'breast_cancer.db')
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or os.path.join(BASE_DIR, 'app', 'static', 'uploads')

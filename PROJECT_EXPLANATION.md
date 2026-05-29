@@ -73,7 +73,7 @@ The following updates are now reflected in the current branch:
 
 | Technology | Purpose |
 |------------|---------|
-| **SQLite** | Lightweight file-based relational database |
+| **PostgreSQL** | Production-grade relational database |
 | **SQLAlchemy** | ORM layer for Python-to-SQL mapping |
 
 ### 2.5 Frontend (Client-Side)
@@ -204,7 +204,6 @@ breast_cancer_detection/
 ├── requirements.txt               # Python package dependencies
 ├── setup.bat                      # Windows first-time setup script
 ├── .env.example                   # Environment variable template
-├── breast_cancer.db               # SQLite database file
 ├── README.md                      # Project documentation
 │
 ├── app/                           # Flask application package
@@ -274,7 +273,7 @@ breast_cancer_detection/
 ### 5.2 config.py (Configuration)
 - `Config` base class with all settings:
   - SECRET_KEY for session security
-  - SQLite database URI
+  - PostgreSQL database URI (DATABASE_URL)
   - Upload folder path and allowed file extensions (png, jpg, jpeg, tif, bmp)
   - Max upload size: 16 MB
   - Model file paths (CNN, SVM, Scaler)

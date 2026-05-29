@@ -15,6 +15,12 @@ def create_app(config_name: str = 'default') -> Flask:
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
+    if not app.config.get('SQLALCHEMY_DATABASE_URI'):
+        raise RuntimeError(
+            'DATABASE_URL is required for PostgreSQL. '
+            'Example: postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection'
+        )
+
     # Extensions
     db.init_app(app)
     login_manager.init_app(app)

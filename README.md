@@ -75,7 +75,14 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### 4. Download BreakHis Dataset
+### 4. Configure PostgreSQL
+Create a Postgres database and set `DATABASE_URL` before running the app:
+```bash
+set DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection   # Windows
+# or: export DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection  (Linux/Mac)
+```
+
+### 5. Download BreakHis Dataset
 Download from: https://web.inf.ufpr.br/vri/databases/breast-cancer-histopathological-database-breakhis/
 
 Extract so the structure is:
@@ -87,7 +94,7 @@ BreaKHis_v1/
       malignant/SOB/ductal_carcinoma/ ...
 ```
 
-### 5. Train the Model
+### 6. Train the Model
 ```bash
 python train.py --dataset /path/to/BreaKHis_v1 --magnification ALL --epochs 30
 ```
@@ -99,7 +106,7 @@ This will:
 - Save models to `app/ml/saved_models/`
 - Output training curves and confusion matrix
 
-### 6. Initialize Database & Run
+### 7. Initialize Database & Run
 ```bash
 python run.py
 ```
@@ -181,7 +188,7 @@ gunicorn --worker-class eventlet --workers 1 --bind 0.0.0.0:$PORT run:app
 |-------|------------|
 | Backend | Flask 3.0, Flask-SQLAlchemy, Flask-Login |
 | Real-time | Flask-SocketIO (Socket.IO 4.x) |
-| Database | SQLite (SQLAlchemy ORM) |
+| Database | PostgreSQL (SQLAlchemy ORM) |
 | ML | TensorFlow/Keras 2.17 + scikit-learn |
 | CNN Base | EfficientNetB0 (ImageNet) |
 | Classifier | SVM (RBF kernel) |
