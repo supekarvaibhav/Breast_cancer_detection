@@ -1,11 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.pool import NullPool
 from flask_login import LoginManager
 from flask_socketio import SocketIO
 from flask_migrate import Migrate
 from config import config
 
-db       = SQLAlchemy()
+db       = SQLAlchemy(engine_options={
+    # Avoid eventlet/threading lock issues under Gunicorn by disabling pooling.
+    'poolclass': NullPool,
+    'pool_pre_ping': True,
+})
 login_manager = LoginManager()
 socketio = SocketIO()
 migrate  = Migrate()
