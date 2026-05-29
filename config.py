@@ -1,4 +1,5 @@
 import os
+from sqlalchemy.pool import NullPool
 from datetime import timedelta
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -14,6 +15,11 @@ def _normalize_database_url(url: str | None) -> str | None:
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'bc-detect-secret-key-2026-change-in-prod'
     SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL'))
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        # Use NullPool to avoid eventlet/threading lock issues on Render.
+        'poolclass': NullPool,
+        'pool_pre_ping': True,
+    }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or os.path.join(BASE_DIR, 'app', 'static', 'uploads')
