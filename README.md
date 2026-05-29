@@ -125,6 +125,7 @@ This repository includes a Render blueprint in `render.yaml`.
 2. In Render, choose New + Blueprint and point it at the repository.
 3. Render will create the web service and PostgreSQL database from the blueprint.
 4. After the first deploy, verify the environment variables `SECRET_KEY`, `DATABASE_URL`, and `FLASK_ENV=production` are present.
+5. Ensure the service uses Python 3.11.9 (set `PYTHON_VERSION=3.11.9` in Render if needed).
 
 If you deploy the app without the blueprint, use this start command:
 
