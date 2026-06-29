@@ -1,0 +1,14 @@
+{
+  "accuracy": 0.9444,
+  "auc": 0.9771,
+  "img_size": 224,
+  "n_train": 6263,
+  "n_val": 855,
+  "n_test": 791,
+  "svm_params": {
+    "C": 1,
+    "gamma": "scale"
+  },
+  "trained_at": "1781499396.954399",
+  "tf_version": "2.20.0"
+}

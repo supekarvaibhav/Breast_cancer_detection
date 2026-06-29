@@ -57,10 +57,10 @@ LR         = 1e-4
 SEED       = 42
 random.seed(SEED); np.random.seed(SEED); tf.random.set_seed(SEED)
 
-SAVE_DIR = Path(__file__).resolve().parent / 'saved_models'
+SAVE_DIR = Path(__file__).resolve().parent / 'app' / 'ml' / 'saved_models'
 SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
-LOG_DIR  = Path(__file__).resolve().parent.parent.parent / 'logs'
+LOG_DIR  = Path(__file__).resolve().parent / 'logs'
 LOG_DIR.mkdir(exist_ok=True)
 
 
@@ -302,11 +302,7 @@ def main():
     plot_metrics(hist2, 'phase2')
 
     # Extract feat_model from fine-tuned cnn_model
-    feat_model = keras.Model(
-        inputs  = cnn_model.input,
-        outputs = cnn_model.get_layer('feature_out').output,
-        name    = 'cnn_feature_extractor'
-    )
+    feat_model = cnn_model.get_layer('cnn_feature_extractor')
 
     # 5. Train SVM
     print('\n=== PHASE 3: SVM Training ===')

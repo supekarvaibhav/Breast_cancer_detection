@@ -127,22 +127,20 @@ class BreastCancerHybridModel:
     def __init__(self, cnn_path: str, svm_path: str, scaler_path: str,
                  img_size: int = 224):
         self.img_size = img_size
-        self.cnn      = keras.models.load_model(cnn_path)
+        self.cnn      = build_feature_extractor(img_size=self.img_size, trainable_base=False)
+        self.cnn.load_weights(cnn_path)
         self.svm_clf  = SVMClassifier.load(svm_path, scaler_path)
 
     # ------------------------------------------------------------------
     def _preprocess(self, img_array: np.ndarray) -> np.ndarray:
         """
-        Resize and add batch dim.
-        EfficientNetB0 has tf.keras.applications.efficientnet.preprocess_input
-        built into the saved model, so pixels must stay in [0, 255].
-        Dividing by 255 here causes a train/inference mismatch → always malignant.
+        Resize, scale to [0, 1], and add batch dim.
+        Must match the train.py pipeline exactly.
         """
-        from PIL import Image
-        img = Image.fromarray(img_array).convert('RGB')
-        img = img.resize((self.img_size, self.img_size))
-        arr = np.array(img, dtype=np.float32)       # keep [0, 255] — NOT /255
-        return np.expand_dims(arr, axis=0)          # (1, H, W, 3)
+        import cv2
+        img = cv2.resize(img_array, (self.img_size, self.img_size))
+        img = img.astype(np.float32) / 255.0
+        return np.expand_dims(img, axis=0)          # (1, H, W, 3)
 
     # ------------------------------------------------------------------
     def predict_from_array(self, img_array: np.ndarray) -> dict:
