@@ -139,7 +139,7 @@ class BreastCancerHybridModel:
         """
         import cv2
         img = cv2.resize(img_array, (self.img_size, self.img_size))
-        img = img.astype(np.float32) / 255.0
+        img = img.astype(np.float32)
         return np.expand_dims(img, axis=0)          # (1, H, W, 3)
 
     # ------------------------------------------------------------------

@@ -45,7 +45,7 @@ from sklearn.metrics import (classification_report, confusion_matrix,
 import seaborn as sns
 
 warnings.filterwarnings('ignore')
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from app.ml.model import build_full_cnn_classifier, SVMClassifier
 
@@ -100,7 +100,7 @@ def load_image(path: str, size: int = IMG_SIZE) -> np.ndarray | None:
         return None
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (size, size))
-    return img.astype(np.float32) / 255.0
+    return img.astype(np.float32)
 
 
 def load_dataset(paths: list, labels: list) -> tuple:
