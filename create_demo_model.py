@@ -47,7 +47,7 @@ def create_demo():
     cnn = keras.Model(inp, feat, name='cnn_feature_extractor')
     cnn_path = str(SAVE_DIR / 'cnn_feature_extractor.keras')
     cnn.save(cnn_path)
-    print(f'[Demo] CNN saved → {cnn_path}')
+    print(f'[Demo] CNN saved -> {cnn_path}')
 
     # ── Create and save a quick SVM on random data ──────────────────
     print('[Demo] Training demo SVM on synthetic data...')
@@ -55,21 +55,28 @@ def create_demo():
     from sklearn.preprocessing import StandardScaler
     import joblib
 
-    rng   = np.random.default_rng(42)
-    X_syn = rng.standard_normal((200, 256)).astype(np.float32)
-    y_syn = rng.integers(0, 2, size=200)
+    # Generate extreme dummy images to train a linear SVM
+    # This will make dark images predict one class, and bright images predict the other
+    dummy_images = np.zeros((100, 224, 224, 3), dtype=np.float32)
+    dummy_images[50:] = 1.0 # White images
+    
+    # Extract features using the CNN we just built
+    print('[Demo] Extracting features from dummy images...')
+    X_syn = cnn.predict(dummy_images, batch_size=32, verbose=0)
+    y_syn = np.zeros(100, dtype=int)
+    y_syn[50:] = 1 # White images are malignant
 
     scaler = StandardScaler().fit(X_syn)
     X_s    = scaler.transform(X_syn)
-    svm    = SVC(kernel='rbf', C=10, probability=True, random_state=42)
+    svm    = SVC(kernel='linear', C=1, probability=True, random_state=42)
     svm.fit(X_s, y_syn)
 
     svm_path    = str(SAVE_DIR / 'svm_classifier.joblib')
     scaler_path = str(SAVE_DIR / 'feature_scaler.joblib')
     joblib.dump(svm,    svm_path)
     joblib.dump(scaler, scaler_path)
-    print(f'[Demo] SVM    saved → {svm_path}')
-    print(f'[Demo] Scaler saved → {scaler_path}')
+    print(f'[Demo] SVM    saved -> {svm_path}')
+    print(f'[Demo] Scaler saved -> {scaler_path}')
 
     # ── Metrics placeholder ─────────────────────────────────────────
     metrics = {'accuracy': 0.0, 'auc': 0.0, 'f1': 0.0,
