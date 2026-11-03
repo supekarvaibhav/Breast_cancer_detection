@@ -25,8 +25,16 @@ def create_app(config_name: str = 'default') -> Flask:
     if not app.config.get('SQLALCHEMY_DATABASE_URI'):
         raise RuntimeError(
             'DATABASE_URL is required for PostgreSQL. '
-            'Example: postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection'
+            'Set it to your Neon pooled connection string.'
         )
+
+    if config_name == 'production':
+        from .image_storage import missing_object_storage_settings
+        missing = missing_object_storage_settings()
+        if missing:
+            raise RuntimeError(
+                'Neon Object Storage settings are missing: ' + ', '.join(missing)
+            )
 
     # Extensions
     db.init_app(app)

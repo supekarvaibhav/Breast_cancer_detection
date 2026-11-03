@@ -69,7 +69,7 @@
                       bg-{{ 'danger' if c.diagnosis.is_malignant else 'success' }} bg-opacity-10
                       border border-{{ 'danger' if c.diagnosis.is_malignant else 'success' }}">
             <div class="d-flex align-items-center gap-3">
-              <img src="{{ url_for('static', filename='uploads/' + c.diagnosis.image_filename) }}"
+              <img src="{{ url_for('patient.image', image_key=c.diagnosis.image_filename) }}"
                    class="rounded-2 shadow-sm" style="width:60px;height:60px;object-fit:cover;">
               <div>
                 <div class="fw-bold {{ 'text-danger' if c.diagnosis.is_malignant else 'text-success' }}">

@@ -97,7 +97,7 @@
               <i class="bi bi-image me-2 text-primary"></i>Analysed Image
             </h5>
             <div class="text-center mb-4">
-              <img src="{{ url_for('static', filename='uploads/' + diag.image_filename) }}"
+              <img src="{{ url_for('patient.image', image_key=diag.image_filename) }}"
                    alt="Histopathology Slide"
                    class="img-fluid rounded-3 shadow"
                    style="max-height:260px;object-fit:contain;">
@@ -476,7 +476,7 @@
   </table>
 
   <div style="text-align: center; margin-bottom: 30px;">
-    <img src="{{ url_for('static', filename='uploads/' + diag.image_filename) }}" style="max-height: 250px; border: 1px solid black;" />
+    <img src="{{ url_for('patient.image', image_key=diag.image_filename) }}" style="max-height: 250px; border: 1px solid black;" />
   </div>
 
   <h3 style="border-bottom: 1px solid black; padding-bottom: 5px; margin-top: 30px; font-weight: bold; font-size: 20px; color: black !important;">Recommendations</h3>

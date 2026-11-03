@@ -1,7 +1,9 @@
 # Virtual environment
 venv/
 env/
+node_modules/
 .env
+.env.local
 
 # Python cache
 __pycache__/
@@ -18,10 +20,7 @@ __pycache__/
 app/static/uploads/*
 !app/static/uploads/.gitkeep
 
-# Model files (large binaries - re-generate via train.py)
-app/ml/saved_models/*.keras
-app/ml/saved_models/*.joblib
-app/ml/saved_models/*.pkl
+# Saved model artifacts are required by the deployed inference service.
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
@@ -42,3 +41,4 @@ desktop.ini
 dist/
 build/
 *.egg-info/
+.neon

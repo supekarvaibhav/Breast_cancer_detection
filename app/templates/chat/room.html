@@ -59,7 +59,7 @@
         <div class="px-4 py-2 bg-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }} bg-opacity-10
                     border-bottom border-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }}">
           <div class="d-flex align-items-center gap-3 flex-wrap">
-            <img src="{{ url_for('static', filename='uploads/' + consult.diagnosis.image_filename) }}"
+            <img src="{{ url_for('patient.image', image_key=consult.diagnosis.image_filename) }}"
                  class="rounded-2 shadow-sm" style="width:46px;height:46px;object-fit:cover;">
             <div>
               <span class="badge bg-{{ 'danger' if consult.diagnosis.is_malignant else 'success' }} me-2">

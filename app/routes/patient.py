@@ -1,6 +1,6 @@
-import os, uuid
+import os, uuid, tempfile, mimetypes
 from flask import (Blueprint, render_template, redirect, url_for, flash,
-                   request, current_app, jsonify)
+                   request, current_app, jsonify, abort, send_from_directory)
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from PIL import Image
@@ -10,6 +10,7 @@ from app import db
 from app.models.user import PatientProfile, DoctorProfile
 from app.models.diagnosis import Diagnosis
 from app.models.consultation import Consultation
+from app.image_storage import create_image_url, is_remote_storage_configured, store_image
 
 patient_bp = Blueprint('patient', __name__)
 
@@ -64,29 +65,38 @@ def upload():
             flash('Invalid file type. Allowed: PNG, JPG, JPEG, TIF, BMP', 'danger')
             return redirect(request.url)
 
-        # Save with unique name
+        # Keep a short-lived local copy for inference; durable storage is remote.
         ext      = secure_filename(file.filename).rsplit('.', 1)[1].lower()
-        filename = f"{uuid.uuid4().hex}.{ext}"
-        save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        file.save(save_path)
+        object_key = f"diagnoses/{uuid.uuid4().hex}.{ext}"
+        with tempfile.NamedTemporaryFile(delete=False, suffix=f'.{ext}') as temp_file:
+            save_path = temp_file.name
+            file.save(temp_file)
 
         # Run AI inference
         model = current_app.ml_model
         if model is None:
+            os.unlink(save_path)
             flash('AI model is not loaded. Please contact administrator.', 'warning')
             return redirect(url_for('patient.dashboard'))
 
         try:
             result = model.predict_from_path(save_path)
+            content_type = mimetypes.guess_type(file.filename)[0] or 'application/octet-stream'
+            stored_key = store_image(save_path, object_key, content_type)
         except Exception as e:
+            if os.path.exists(save_path):
+                os.unlink(save_path)
             flash(f'Analysis failed: {e}', 'danger')
             return redirect(request.url)
+        finally:
+            if os.path.exists(save_path):
+                os.unlink(save_path)
 
         # Save diagnosis to DB
         profile   = current_user.patient_profile
         diagnosis = Diagnosis(
             patient_id     = profile.id,
-            image_filename = filename,
+            image_filename = stored_key,
             prediction     = result['prediction'],
             is_malignant   = result['is_malignant'],
             confidence     = result['confidence'],
@@ -101,6 +111,32 @@ def upload():
         return redirect(url_for('patient.result', diagnosis_id=diagnosis.id))
 
     return render_template('patient/upload.html')
+
+
+@patient_bp.route('/image/<path:image_key>')
+@login_required
+def image(image_key: str):
+    """Serve an image only to its patient or the assigned consulting doctor."""
+    diagnosis = Diagnosis.query.filter_by(image_filename=image_key).first_or_404()
+    if current_user.role == 'patient':
+        allowed = diagnosis.patient.user_id == current_user.id
+    elif current_user.role == 'doctor':
+        profile = current_user.doctor_profile
+        allowed = bool(
+            profile and diagnosis.consultation
+            and diagnosis.consultation.doctor_id == profile.id
+        )
+    else:
+        allowed = False
+    if not allowed:
+        abort(404)
+
+    if is_remote_storage_configured():
+        return redirect(create_image_url(image_key))
+    return send_from_directory(
+        current_app.config['UPLOAD_FOLDER'],
+        os.path.basename(image_key),
+    )
 
 
 @patient_bp.route('/result/<int:diagnosis_id>')

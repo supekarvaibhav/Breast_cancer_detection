@@ -1,8 +1,21 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, jsonify
 from flask_login import current_user
+from sqlalchemy import text
+from app import db
 from app.models.user import DoctorProfile
 
 main_bp = Blueprint('main', __name__)
+
+
+@main_bp.route('/health')
+def health():
+    """Report ready only when the app can reach its database."""
+    try:
+        db.session.execute(text('SELECT 1'))
+        return jsonify(status='ok'), 200
+    except Exception:
+        db.session.rollback()
+        return jsonify(status='unavailable'), 503
 
 
 @main_bp.route('/')

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@neon/config": "^1.10.0",
+    "neon": "^8.17.1"
+  }
+}

@@ -33,7 +33,7 @@
           <tr>
             <td class="ps-4 text-muted small">{{ d.id }}</td>
             <td>
-              <img src="{{ url_for('static', filename='uploads/' + d.image_filename) }}"
+              <img src="{{ url_for('patient.image', image_key=d.image_filename) }}"
                    alt="Slide" class="rounded-2 shadow-sm" style="width:56px;height:56px;object-fit:cover;">
             </td>
             <td class="small">

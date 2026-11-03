@@ -75,11 +75,11 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### 4. Configure PostgreSQL
-Create a Postgres database and set `DATABASE_URL` before running the app:
+### 4. Configure the database
+For hosted use, create a Neon project and set `DATABASE_URL` to its pooled Postgres connection string. For local SQLite development, use:
 ```bash
-set DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection   # Windows
-# or: export DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/breast_cancer_detection  (Linux/Mac)
+set DATABASE_URL=sqlite:///breast_cancer.db   # Windows
+# or: export DATABASE_URL=sqlite:///breast_cancer.db  (Linux/Mac)
 ```
 
 ### 5. Download BreakHis Dataset
@@ -119,15 +119,20 @@ Visit `http://localhost:5001`
 
 ## Deploy on Render
 
-This repository includes a Render blueprint in `render.yaml`.
+The root `render.yaml` Blueprint defines a Python web service that connects to Neon Postgres and Neon Object Storage. The web service uses a 2 GB instance because TensorFlow loads the CNN at startup. Patient images are kept in a private S3-compatible Neon bucket; the database stores only each image's object key.
 
-1. Push the code to GitHub.
-2. In Render, choose New + Blueprint and point it at the repository.
-3. Render will create the web service and PostgreSQL database from the blueprint.
-4. After the first deploy, verify the environment variables `SECRET_KEY`, `DATABASE_URL`, and `FLASK_ENV=production` are present.
-5. Ensure the service uses Python 3.11.9 (set `PYTHON_VERSION=3.11.9` in Render if needed).
+1. Create a Neon project in `aws-ap-southeast-1` (Singapore), which is supported by Neon Object Storage.
+2. Install Node.js 20.19 or later, then run `npm install` to install the config package. Install the Neon CLI with `npm install --global neon`, authenticate with `neon auth`, link this repository to the Neon project with `neon link`, and run `neon deploy` from the repository root to create the private bucket declared in `neon.ts`.
+3. Run `neon env pull` and copy `DATABASE_URL`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_ENDPOINT_URL_S3`, and `AWS_REGION` into the environment-variable prompts when creating the Render Blueprint. Use the pooled Neon `DATABASE_URL` for the app.
+4. Push this repository to a Git provider connected to Render. Include the files in `app/ml/saved_models/`; the CNN, SVM, and scaler artifacts are required for predictions.
+5. In Render, choose **New + Blueprint**, select the repository, and review the web service plan before applying it.
+6. Render builds and deploys the service. The `/health` endpoint checks database connectivity and is used as the deploy health check. Open the service URL shown in the Render dashboard.
 
-If you deploy the app without the blueprint, use this start command:
+The Blueprint generates `SECRET_KEY`; Neon supplies the database and private-storage credentials. During local development, when the Neon storage variables are absent, uploaded images are saved under `app/static/uploads`. In production, startup fails if the required Neon Object Storage variables are missing.
+
+If you deploy the app without the Blueprint, use this start command:
+
+The currently bundled model artifacts are marked as a demo model in `metrics.json`. Replace them with validated training outputs before using predictions beyond a demonstration; this app is not a substitute for clinical diagnosis.
 
 ```bash
 gunicorn --worker-class gthread --workers 1 --threads 4 --bind 0.0.0.0:$PORT run:app
